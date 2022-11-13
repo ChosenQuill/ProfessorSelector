@@ -24,6 +24,9 @@
                 if(json.data) {
                     const id = json.data[0]._id;
                     classes = [...classes, {section, number, id}];
+                    className = ""
+                    $toasts.push({type: "success", text: "Added class to list!"})
+                    $toasts = $toasts
                     console.log("Classes",classes)
                     if(classes.length == 1) {
                         goto(`/app/class/${id}`);
