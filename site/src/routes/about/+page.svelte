@@ -1,26 +1,12 @@
-<svelte:head>
-	<title>About</title>
-	<meta name="description" content="About this app" />
-</svelte:head>
-
-<div class="text-column">
-	<h1>About this app</h1>
-
-	<p>
-		This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
-		following into your command line and following the prompts:
-	</p>
-
-	<pre>npm create svelte@latest</pre>
-
-	<p>
-		The page you're looking at is purely static HTML, with no client-side interactivity needed.
-		Because of that, we don't need to load any JavaScript. Try viewing the page's source, or opening
-		the devtools network panel and reloading.
-	</p>
-
-	<p>
-		The <a href="/sverdle">Sverdle</a> page illustrates SvelteKit's data loading and form handling. Try
-		using it with JavaScript disabled!
-	</p>
-</div>
+<main class="main h-full w-full hero flex-grow">
+    <div class="hero-content flex-col lg:flex-row-reverse w-full">
+        <img src="https://placeimg.com/260/400/arch" class="max-w-sm rounded-lg shadow-2xl" />
+        <div>
+        <h1 class="text-5xl font-bold">About</h1>
+        <p class="pt-6 pb-3 w-80">
+            UTD Professor Selector is a data analytics tool to help you pick the best professors!
+        </p>
+        <p class="w-80">Built by Rithvik S. w/&nbsp;&nbsp;❤️</p>
+        </div>
+    </div>
+</main>

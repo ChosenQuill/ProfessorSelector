@@ -4,7 +4,7 @@
     $: course = data.course;
     let desc;
     $: {
-        const re = /(.+)\) (.+) Prerequisites:.+/g
+        const re = /(.+)\) (.+) Prerequisites.+/g
         const res = re.exec(course.description);
         desc = res ? res[2] : course.description;
     }
@@ -15,21 +15,24 @@
 {#each professors as prof}
 <div class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box my-4 w-full">
     <input type="checkbox" /> 
-    <div class="collapse-title text-xl">
-        <span class="font-medium">
+    <div class="collapse-title text-xl flex flex-row w-full">
+        <span class="font-medium flex-grow">
             {prof.full_name}
         </span>
+        <a target="_blank" href="https://ratemyprofessors.com/search/teachers?query={prof.full_name}" class="z-40 flex justify-center items-center ml-4">
+          <span style="font-size: 20px;" class="material-icons">link</span>
+        </a>
     </div>
     <div class="collapse-content"> 
-        <div class="stats">
+        <div class="stats -ml-2 mt-0">
           {#if prof.image_uri}
-          <div class="stat">
-            <div class="avatar">
-              <div class="w-24 rounded-xl">
-                <img src={prof.image_uri} />
+            <div class="stat">
+              <div class="avatar">
+                <div class="w-24 rounded-xl">
+                  <img src={prof.image_uri} />
+                </div>
               </div>
             </div>
-          </div>
           {/if}
 
           <div class="stat">
@@ -52,7 +55,8 @@
           
           <div class="stat">
               <div class="stat-figure">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span class="material-icons" style="font-size: 34px;">refresh</span>
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg> -->
               </div>
               <div class="stat-value">{Number(prof.rmp.wouldTakeAgainPercentRounded).toFixed(0)}%</div>
               <div class="stat-title">Would Take Again</div>
@@ -60,7 +64,29 @@
           
             </div>
             
+            <div class="stat">
+              <div class="stat-figure">
+                <span class="material-icons" style="font-size: 34px;">refresh</span>
+              </div>
+              <div class="stat-title">Average Grade</div>
+              <div class="stat-value">{Number(Math.random() * 100).toFixed(1)}</div>
+              <div class="stat-desc">Out Of 100</div>
+            </div>
         </div>
+        <!-- <div class="rating rating-md rating-half mt-4">
+          <div class="text-lg">Your Rating:</div>
+          <input type="radio" name="rating-10" class="rating-hidden" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-1" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-2" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-1" checked />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-2" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-1" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-2" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-1" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-2" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-1" />
+          <input type="radio" name="rating-10" class="bg-green-500 mask mask-star-2 mask-half-2" />
+        </div> -->
     </div>
   </div>          
 {/each}

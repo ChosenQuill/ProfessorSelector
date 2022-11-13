@@ -4,7 +4,10 @@
 	import logo from '$lib/images/logo.png'
 	import toasts from '$lib/toasts.js'
 </script>
-
+<svelte:head>
+	<title>Professor Selector</title>
+	<link rel="icon" type="image/png" href={logo}>
+</svelte:head>
 
 <div class="main-flex app bg-base-200">
 	<header class="p-4 w-full flex text-lg">
@@ -13,6 +16,8 @@
 			<li><a href="/app">App</a></li>
 			<li><a href="/about">About</a></li>
 		</ul>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 	</header>
 	<main class="main main-flex h-full w-full">
 		<slot />
@@ -58,6 +63,7 @@
 		</div>
 	{/each}
 </div>
+<div class="alert-error alert-info alert-warning alert-success hidden" />
 
 <style lang="scss">
 	.pop>li {
