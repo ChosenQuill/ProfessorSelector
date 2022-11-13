@@ -16,8 +16,7 @@
 			<li><a href="/app">App</a></li>
 			<li><a href="/about">About</a></li>
 		</ul>
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
 	</header>
 	<main class="main main-flex h-full w-full">
 		<slot />

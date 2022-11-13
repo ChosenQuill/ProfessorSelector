@@ -66,7 +66,7 @@
             
             <div class="stat">
               <div class="stat-figure">
-                <span class="material-icons" style="font-size: 34px;">refresh</span>
+                <span class="material-icons-outlined" style="font-size: 34px;">grade</span>
               </div>
               <div class="stat-title">Average Grade</div>
               <div class="stat-value">{Number(Math.random() * 100).toFixed(1)}</div>
