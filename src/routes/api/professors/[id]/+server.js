@@ -1,8 +1,11 @@
-import { error } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import { getProfessorRating } from './index'
 import headers from '$lib/headers'
 import { validate_each_argument } from 'svelte/internal';
 
+import { loadDB, getProfessorAvg } from './grades'
+
+loadDB();
 
 async function getProfessorData(cid) {
     const res = await fetch(`https://api.utdnebula.com/section?course_reference=${cid}&academic_session.name=22S`, headers);
@@ -17,8 +20,12 @@ async function getProfessorData(cid) {
             data.full_name = data.first_name + " " + data.last_name;
             return data
         })
-    let profRMP = await Promise.all(profData.map(data => getProfessorRating(data.full_name)));
+    let [profRMP, profGrades] = await Promise.all([
+        await Promise.all(profData.map(data => getProfessorRating(data.full_name))),
+        await Promise.all(profData.map(data => getProfessorAvg(data.first_name, data.last_name)))
+    ]);
     profRMP.forEach((rmp, i) => profData[i].rmp = rmp);
+    profGrades.forEach((avg, i) => profData[i].avgGrade = avg);
     // profData = profData.filter((prof) => (prof.rmp.avgRatingRounded));
     profData = profData.sort((prof1, prof2) => {
         const prof1r = prof1.rmp ? Number(prof1.rmp.avgRatingRounded) : -1
@@ -28,35 +35,16 @@ async function getProfessorData(cid) {
     return profData;
 }
 
-// async function getCourseData(cid) {
-//     const res = await fetch(`https://api.utdnebula.com/course/${cid}`, headers);
-//     const json = await res.json();
-//     return json.data;
-// }
-
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ url }) {
-    const cid = url.searchParams.get('cid');
-
-    try{
+export async function GET({ params }) {
+    const id = params.id;
+    try {
         // const [course, professors] = await Promise.all([getCourseData(cid), getProfessorData(cid)]);
         // return new Response(JSON.stringify({course, professors}));
-        const professors = await getProfessorData(cid);
-        return new Response(JSON.stringify(professors));
+        const professors = await getProfessorData(id);
+        return json(professors, { status: 200 });
     } catch (e) {
         console.error(e)
         throw error(404, 'Not found');
     }
-
-
-    // const min = Number( ?? '0');
-    // const max = Number(url.searchParams.get('max') ?? '1');
-
-    // const d = max - min;
-
-    // if (isNaN(d) || d < 0) {
-    //     throw error(400, 'min and max must be numbers, and min must be less than max');
-    // }
-
-    // const random = min + Math.random() * d;
 }

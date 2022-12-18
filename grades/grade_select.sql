@@ -1,0 +1,2 @@
+-- SQLite
+SELECT SUM(average) / count(average) AS average FROM classes JOIN class_professor ON classes.id = class_professor.class_id where professor_id = (SELECT id FROM professors WHERE first_name LIKE 'jason' AND last_name Like 'smith') AND count != 0;
