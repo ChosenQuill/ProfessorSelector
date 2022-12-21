@@ -1,3 +1,10 @@
+# Grades
+
+# Building
+Run `pnpm run start` to build the grades.db file.
+
+# Format
+
 The data is split into three tables.
 
 professors
