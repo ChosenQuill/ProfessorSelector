@@ -11,7 +11,7 @@ import fs from "node:fs";
 
 
 // const db = new Database(dbfile)
-const db = new Database(fs.readFileSync("grades.db"));
+const db = new Database("grades.db")
 // db.pragma('journal_mode = WAL'); // No need for WAL since we do all reads and no writes.
 
 const query = "SELECT SUM(average) / count(average) AS average FROM classes JOIN class_professor ON classes.id = class_professor.class_id where professor_id = (SELECT id FROM professors WHERE first_name LIKE ? AND last_name Like ?) AND count != 0;"
@@ -29,3 +29,5 @@ export function getProfessorAvg(first, last) {
 }
 
 // console.log(getProfessorAvg("Jason", "Smith"))
+
+console.log("grades.db is " + fs.existsSync("grades.db") ? "" : " NOT " + "found")

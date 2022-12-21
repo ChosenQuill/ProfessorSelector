@@ -61,8 +61,8 @@
 						current = id;
 					}
 					const res3 = await fetch(`/api/professors/${id}`);
-					if (fres?.status != 200) {
-						$toasts.push({ type: 'error', text: "Can't access UTD Grade's api." });
+					if (res3?.status != 200) {
+						$toasts.push({ type: 'error', text: "Can't get professor information." });
 						$toasts = $toasts;
 						return;
 					}

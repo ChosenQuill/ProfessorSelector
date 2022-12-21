@@ -16,3 +16,5 @@ vite.config.ts.timestamp-*
 
 # Custom Addition
 graphqlschema2payload
+grades.db-shm
+grades.db-wal
