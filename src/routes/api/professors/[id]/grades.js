@@ -11,7 +11,8 @@ console.log("Running grades file")
 console.log("grades.db", fs.existsSync("grades.db"))
 
 // const db = new Database(dbfile)
-const db = new Database("grades.db")
+const file = fs.readFileSync("grades.db");
+const db = new Database(file);
 // db.pragma('journal_mode = WAL'); // No need for WAL since we do all reads and no writes.
 
 const query = "SELECT SUM(average) / count(average) AS average FROM classes JOIN class_professor ON classes.id = class_professor.class_id where professor_id = (SELECT id FROM professors WHERE first_name LIKE ? AND last_name Like ?) AND count != 0;"
