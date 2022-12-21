@@ -1,7 +1,8 @@
 import Database from 'better-sqlite3'
+import fs from "node:fs";
 
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
+// import { fileURLToPath } from 'url';
+// import { dirname, resolve } from 'path';
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
@@ -10,7 +11,7 @@ import { dirname, resolve } from 'path';
 
 
 // const db = new Database(dbfile)
-const db = new Database("grades.db")
+const db = new Database(fs.readFileSync("grades.db"));
 // db.pragma('journal_mode = WAL'); // No need for WAL since we do all reads and no writes.
 
 const query = "SELECT SUM(average) / count(average) AS average FROM classes JOIN class_professor ON classes.id = class_professor.class_id where professor_id = (SELECT id FROM professors WHERE first_name LIKE ? AND last_name Like ?) AND count != 0;"
