@@ -7,8 +7,8 @@ import fs from "node:fs";
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
 // const dbfile = resolve(__dirname, './grades.db')
-
-console.log("grades.db is " + fs.existsSync("grades.db") ? "" : " NOT " + "found")
+console.log("Running grades file")
+console.log("grades.db", fs.existsSync("grades.db"))
 
 // const db = new Database(dbfile)
 const db = new Database("grades.db")
