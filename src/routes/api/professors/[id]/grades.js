@@ -1,18 +1,23 @@
-import l3 from 'sqlite3'
-import { open } from 'sqlite'
+import Database from 'better-sqlite3'
 
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+// const dbfile = resolve(__dirname, './grades.db')
 
-let db;
+
+
+// const db = new Database(dbfile)
+const db = new Database("grades.db")
+// db.pragma('journal_mode = WAL'); // No need for WAL since we do all reads and no writes.
 
 const query = "SELECT SUM(average) / count(average) AS average FROM classes JOIN class_professor ON classes.id = class_professor.class_id where professor_id = (SELECT id FROM professors WHERE first_name LIKE ? AND last_name Like ?) AND count != 0;"
 
-export async function getProfessorAvg(first, last) {
-    const rows = await db.all(query, [first, last]);
+export function getProfessorAvg(first, last) {
+    const rows = db.prepare(query).all([first, last]);
+
     // if (err) {
     //     console.error(err)
     //     throw new Error("Can't get grade data.")
@@ -22,8 +27,4 @@ export async function getProfessorAvg(first, last) {
     return rows[0]
 }
 
-export async function loadDB() {
-    db = await open({ filename: __dirname + "/grades.db", driver: l3.Database });
-}
-
-// getProfessorAvg("Jason", "Smith")
+// console.log(getProfessorAvg("Jason", "Smith"))

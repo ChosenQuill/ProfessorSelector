@@ -19,6 +19,10 @@ export async function getProfessorRating(name) {
                         wouldTakeAgainPercentRounded
                         numRatings
                         legacyId
+
+                        ratingsDistribution {
+                            total
+                        }
                     }
                 }
             }
@@ -38,4 +42,4 @@ export async function getProfessorRating(name) {
 async function main() {
     console.log(await getProfessorRating("Jason Smith"))
 }
-main()
+// main()

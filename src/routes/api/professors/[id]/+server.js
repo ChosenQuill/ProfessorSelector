@@ -3,9 +3,8 @@ import { getProfessorRating } from './index'
 import headers from '$lib/headers'
 import { validate_each_argument } from 'svelte/internal';
 
-import { loadDB, getProfessorAvg } from './grades'
+import { getProfessorAvg } from './grades'
 
-loadDB();
 
 async function getProfessorData(cid) {
     const res = await fetch(`https://api.utdnebula.com/section?course_reference=${cid}&academic_session.name=22S`, headers);
@@ -27,11 +26,16 @@ async function getProfessorData(cid) {
     profRMP.forEach((rmp, i) => profData[i].rmp = rmp);
     profGrades.forEach((avg, i) => profData[i].avgGrade = avg);
     // profData = profData.filter((prof) => (prof.rmp.avgRatingRounded));
+    // console.log(profData)
+    // console.log(profData.map(prof => prof?.rmp?.avgRatingRounded));
     profData = profData.sort((prof1, prof2) => {
-        const prof1r = prof1.rmp ? Number(prof1.rmp.avgRatingRounded) : -1
-        const prof2r = prof2.rmp ? Number(prof2.rmp.avgRatingRounded) : -1
+        const prof1r = prof1?.rmp?.avgRatingRounded ? Number(prof1.rmp.avgRatingRounded) : -100;
+        const prof2r = prof2?.rmp?.avgRatingRounded ? Number(prof2.rmp.avgRatingRounded) : -100;
+        // console.log(prof1.full_name, prof1?.rmp?.avgRatingRounded, prof2.full_name, prof2?.rmp?.avgRatingRounded, prof2r - prof1r);
         return prof2r - prof1r;
     });
+    // profData.forEach(prof => console.log(prof.full_name))
+    // console.log(profData.map(prof => prof?.rmp?.avgRatingRounded));
     return profData;
 }
 
@@ -42,7 +46,7 @@ export async function GET({ params }) {
         // const [course, professors] = await Promise.all([getCourseData(cid), getProfessorData(cid)]);
         // return new Response(JSON.stringify({course, professors}));
         const professors = await getProfessorData(id);
-        return json(professors, { status: 200 });
+        return json(professors, { status: 200, headers: { 'cache-control': 'public, max-age=3600' } });
     } catch (e) {
         console.error(e)
         throw error(404, 'Not found');

@@ -181,7 +181,7 @@
 	</section>
 	<div class="divider divider-horizontal mr-3" />
 	<!-- class="flex-grow" -->
-	<section class="flex flex-col">
+	<section class="flex flex-col overflow-x-auto">
 		<!-- Old slot -->
 		{#if courses[current]}
 			<Course info={courses[current].course} />

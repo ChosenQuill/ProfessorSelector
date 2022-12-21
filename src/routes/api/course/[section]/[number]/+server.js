@@ -25,7 +25,8 @@ export async function GET({ params }) {
         if (!rjson?.data || rjson.data.length == 0) {
             return json(null, { status: rjson.status })
         }
-        return json(rjson.data[0], { status: rjson.status });
+        console.log("call to course data")
+        return json(rjson.data[0], { status: rjson.status, headers: { 'cache-control': 'public, max-age=3600' } });
     } catch (e) {
         console.error(e)
         throw error(500, 'Internal Server Error');
