@@ -8,7 +8,7 @@ import fs from "node:fs";
 // const __dirname = dirname(__filename);
 // const dbfile = resolve(__dirname, './grades.db')
 
-
+console.log("grades.db is " + fs.existsSync("grades.db") ? "" : " NOT " + "found")
 
 // const db = new Database(dbfile)
 const db = new Database("grades.db")
@@ -29,5 +29,3 @@ export function getProfessorAvg(first, last) {
 }
 
 // console.log(getProfessorAvg("Jason", "Smith"))
-
-console.log("grades.db is " + fs.existsSync("grades.db") ? "" : " NOT " + "found")

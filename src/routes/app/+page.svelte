@@ -64,6 +64,7 @@
 					if (res3?.status != 200) {
 						$toasts.push({ type: 'error', text: "Can't get professor information." });
 						$toasts = $toasts;
+						courses[id].professors = [];
 						return;
 					}
 					const json3 = await res3.json();
