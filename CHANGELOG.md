@@ -3,7 +3,7 @@
 ## TODO
 - Feature: Details panel with grades and rmp distribution
 - Feature: Mobile Optimization
-- Feature
+- Feature: Professor Fix File (For not found professors)
 - Improvement: Switch to List View
 - Improvement: Add edge caching
 
