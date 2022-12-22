@@ -186,7 +186,7 @@
 		<!-- Old slot -->
 		{#if courses[current]}
 			<Course info={courses[current].course} />
-			{#if courses[current].professors.length != null}
+			{#if courses[current].professors != null}
 				<Professors info={courses[current].professors} />
 			{:else}
 				<progress class="progress w-full" />
