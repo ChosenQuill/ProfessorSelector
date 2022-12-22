@@ -43,14 +43,14 @@
 			try {
 				const fres = await fetch(`/api/course/${section}/${number}`);
 				if (fres?.status != 200) {
-					$toasts.push({ type: 'error', text: "Can't access UTD nebula's api." });
+					$toasts.push({ type: 'error', text: "Can't get course data. (UTD Nebula might be down)" });
 					$toasts = $toasts;
 					return;
 				}
 				const course = await fres.json();
 				if (course) {
 					const id = course._id;
-					courses[id] = { section, number, id, course, professors: [] };
+					courses[id] = { section, number, id, course, professors: undefined };
 					courses = courses;
 
 					className = '';
@@ -186,7 +186,7 @@
 		<!-- Old slot -->
 		{#if courses[current]}
 			<Course info={courses[current].course} />
-			{#if courses[current].professors.length != 0}
+			{#if courses[current].professors.length != null}
 				<Professors info={courses[current].professors} />
 			{:else}
 				<progress class="progress w-full" />
