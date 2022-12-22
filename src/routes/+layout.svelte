@@ -11,12 +11,12 @@
 	import { onMount } from 'svelte';
 
 	// Defer font loading.
-	let ref;
-	onMount(async () => {
-		if(ref.media != "all") {
-			ref.media = "all";
-		}
-	});
+	// let ref;
+	// onMount(async () => {
+	// 	if(ref.media != "all") {
+	// 		ref.media = "all";
+	// 	}
+	// });
 </script>
 
 <svelte:head>
@@ -24,8 +24,8 @@
 	<meta name="description" content="Get Info on your classes" />
 	<link rel="icon" type="image/png" href={logoWebp} />
 	
-	<link bind:this={ref} media="none" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"></noscript>
+	<!-- <link bind:this={ref} media="none" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"></noscript> -->
 </svelte:head>
 
 <!-- 
