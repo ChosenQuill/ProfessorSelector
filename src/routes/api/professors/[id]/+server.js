@@ -46,7 +46,7 @@ export async function GET({ params }) {
         // const [course, professors] = await Promise.all([getCourseData(cid), getProfessorData(cid)]);
         // return new Response(JSON.stringify({course, professors}));
         const professors = await getProfessorData(id);
-        return json(professors, { status: 200, headers: { 'cache-control': 'public, max-age=3600' } });
+        return json(professors, { status: 200, headers: { 'cache-control': 'public, max-age=2592000' } });
     } catch (e) {
         console.error(e)
         throw error(404, 'Not found');

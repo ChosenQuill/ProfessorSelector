@@ -14,7 +14,6 @@
 
 	function expand(profID) {
 		expanded[profID] = !expanded[profID];
-		console.log(expanded)
 	}
 
 	$: {
@@ -38,6 +37,10 @@
 <style>
 	.expanded {
 		transform: rotate(180deg);
+	}
+
+	tr:nth-child(odd) > td, tr:nth-child(odd) > th {
+		border: none;
 	}
 
 	/* tr {
@@ -132,11 +135,25 @@
 							</div>
 						</button>
 					</td>
-					{#if expanded[prof._id]}
+				</tr>
+				<tr>
+					<!-- <td colspan="9" class="{expanded[prof._id] ? "visible" : "hidden"} border-none">
 						<div>
-							Extra Text!
+							Testing Stuff
 						</div>
-					{/if}
+					</td> -->
+
+					<td colspan="9" class="transition-all py-0">
+						<div class="{expanded[prof._id] ? "max-h-14 py-4 pt-2" : "max-h-0 py-0  overflow-hidden"} box-border transition-all">
+							Hi! Here will be some more data about the professor. Stay tuned!
+						</div>
+					</td>
+					
+					<!-- <td colspan="9" class="border-none transition-all py-0 overflow-hidden">
+						<div class="{expanded[prof._id] ? "py-4 scale-y-100" : "py-0 scale-y-0"} overflow-hidden transition-all box-border">
+							Testing Stuff <br /> line 2
+						</div>
+					</td> -->
 				</tr>
 			{/each}
 		</tbody>
