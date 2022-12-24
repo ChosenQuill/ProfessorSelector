@@ -99,7 +99,7 @@
 
 <div class="flex flex-col md:flex-row mx-8 h-full mb-2">
 	<section class="flex flex-col">
-		<div class="card bg-base-300 shadow-md" style="width: 21rem;">
+		<div class="card bg-base-300 shadow-md">
 			<div class="card-body">
 				<h2 class="card-title">Add A Class</h2>
 				<label class="label">
