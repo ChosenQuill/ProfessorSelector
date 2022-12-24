@@ -118,9 +118,8 @@
 					</td>
 					<td>
 						<div class="btn-group lg:btn-group-horizontal">
-							<button class="btn btn-xs">Button</button>
-							<button class="btn btn-xs">Button</button>
-							<button class="btn btn-xs">Button</button>
+							<button class="btn btn-xs">Ratings</button>
+							<button class="btn btn-xs">Grades</button>
 						</div>
 					</td>
 					<td>
@@ -144,8 +143,10 @@
 					</td> -->
 
 					<td colspan="9" class="transition-all py-0">
-						<div class="{expanded[prof._id] ? "max-h-14 py-4 pt-2" : "max-h-0 py-0  overflow-hidden"} box-border transition-all">
+						<div class="{expanded[prof._id] ? "max-h-10 py-4 pt-2" : "max-h-0 py-0"} overflow-hidden box-border transition-all duration-300">
+							<!-- Start Collapse -->
 							Hi! Here will be some more data about the professor. Stay tuned!
+							<!-- End Collapse -->
 						</div>
 					</td>
 					
