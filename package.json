@@ -40,7 +40,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"better-sqlite3": "^8.4.0",
+		"better-sqlite3": "^8.0.1",
 		"daisyui": "^2.51.6",
 		"dotenv": "^16.0.3",
 		"graphql": "^16.6.0",
