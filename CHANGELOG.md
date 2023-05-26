@@ -16,3 +16,6 @@
 - Feature: Added Netlify Deploy Options
 - BugFix: Fixed incorrect ratings distribution
 - BugFix: Fixed Shifting Plates
+
+0.0.6: 5/25/23 - 5/26/23
+- Improvement: Cleanup of codebase

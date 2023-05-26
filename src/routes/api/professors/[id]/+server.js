@@ -1,7 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import { getProfessorRating } from './index'
 import headers from '$lib/headers'
-import { validate_each_argument } from 'svelte/internal';
 
 import { getProfessorAvg } from './grades'
 

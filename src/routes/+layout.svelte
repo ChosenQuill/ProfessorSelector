@@ -1,45 +1,22 @@
 <script>
-	// New
-	import '../app.css';
+	import "../app.css";
+
 	import logoAvifSm from '$lib/images/logo-small.avif';
 	import logoAvif from '$lib/images/logo.avif';
 	import logoWebpSm from '$lib/images/logo-small.webp';
 	import logoWebp from '$lib/images/logo.webp';
-	import { toasts } from '$lib/stores.js';
-	import { page } from '$app/stores';
-	// console.log($page.url)
-	import { onMount } from 'svelte';
 
-	// Defer font loading.
-	// let ref;
-	// onMount(async () => {
-	// 	if(ref.media != "all") {
-	// 		ref.media = "all";
-	// 	}
-	// });
+
+	import { toasts } from '$lib/toasts';
+	import { page } from '$app/stores';
 </script>
 
 <svelte:head>
 	<title>Professor Selector</title>
 	<meta name="description" content="Get Info on your classes" />
 	<link rel="icon" type="image/png" href={logoWebp} />
-	
-	<!-- <link bind:this={ref} media="none" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"></noscript> -->
+
 </svelte:head>
-
-<!-- 
-		<ul class="tabs flex flex-row">
-			<li><a href="/" class="tab text-lg duration-300" class:tab-active={$page.url.pathname == '/'}>Home</a></li>
-			<li>
-				<a href="/app" class="tab text-lg duration-300" class:tab-active={$page.url.pathname.startsWith('/app')}>App</a>
-			</li>
-			<li>
-				<a href="/about" class="tab text-lg duration-300" class:tab-active={$page.url.pathname.startsWith('/about')}>About</a>
-			</li>
-		</ul>
- -->
-
 
 <div class="main-flex app">
 	<header class="p-4 w-full flex text-lg">
@@ -52,24 +29,6 @@
 	<main class="main main-flex h-full w-full">
 		<slot />
 	</main>
-	<!-- Old Footer -->
-	<!-- <footer class="footer p-10 bg-neutral text-base-content -my-4"> 
-		<div class="flex items-center h-full">
-			<img alt="Logo" src={logo} width="50" height="50" class="mr-1" />
-		  	<p>Xeno Industries LLC.<br/>Providing reliable tech since 2018</p>
-		</div>
-		<div>
-			<span class="footer-title">Company</span> 
-			<a class="link link-hover">About us</a> 
-			<a class="link link-hover">Contact</a>
-		</div> 
-		<div>
-			<span class="footer-title">Legal</span> 
-			<a class="link link-hover">Terms of use</a> 
-			<a class="link link-hover">Privacy policy</a>
-		</div>
-	  </footer> -->
-
 	<footer class="footer items-center p-4 bg-base-300 text-neutral-content">
 		<div class="flex items-center h-full">
 			<picture>
@@ -77,10 +36,6 @@
 				<source srcset="{logoWebpSm} 1x, {logoWebp} 2x" type="image/webp">
 				<img src={logoWebpSm} width="36" height="36" class="mr-1" alt="Logo">
 			</picture>
-			<!-- <img alt="Logo" src={logo} width="36" height="36" class="mr-1" />
-			<img alt="Logo" src={oldlogo} width="36" height="36" class="mr-1" />
-			<img alt="Logo" src={logonoloss} width="36" height="36" class="mr-1" />
-			<img alt="Logo" src={logolarge} width="36" height="36" class="mr-1" /> -->
 			<p>Xeno Industries LLC.<br />Providing reliable tech since 2018</p>
 		</div>
 		<div class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">

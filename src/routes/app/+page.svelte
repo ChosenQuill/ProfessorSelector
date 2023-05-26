@@ -1,5 +1,5 @@
 <script>
-	import { toasts } from '$lib/stores.js';
+	import { addToast } from '$lib/toasts';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	// console.log("URL", $page.url.pathname)
@@ -36,15 +36,13 @@
 				(course) => course.section == section && course.number == number
 			);
 			if (found != -1) {
-				$toasts.push({ type: 'info', text: 'You have already have this course added.' });
-				$toasts = $toasts;
+				addToast({ type: 'info', text: 'You have already have this course added.' });
 				return;
 			}
 			try {
 				const fres = await fetch(`/api/course/${section}/${number}`);
 				if (fres?.status != 200) {
-					$toasts.push({ type: 'error', text: "Can't get course data. (UTD Nebula might be down)" });
-					$toasts = $toasts;
+					addToast({ type: 'error', text: "Can't get course data. (UTD Nebula might be down)" });
 					return;
 				}
 				const course = await fres.json();
@@ -54,16 +52,13 @@
 					courses = courses;
 
 					className = '';
-					$toasts.push({ type: 'success', text: 'Added class to list!' });
-					$toasts = $toasts;
-
+					addToast({ type: 'success', text: 'Added class to list!' });
 					if (Object.keys(courses).length == 1) {
 						current = id;
 					}
 					const res3 = await fetch(`/api/professors/${id}`);
 					if (res3?.status != 200) {
-						$toasts.push({ type: 'error', text: "Can't get professor information." });
-						$toasts = $toasts;
+						addToast({ type: 'error', text: "Can't get professor information." });
 						courses[id].professors = [];
 						return;
 					}
@@ -71,17 +66,14 @@
 					courses[id].professors = json3;
 					courses = courses;
 				} else {
-					$toasts.push({ type: 'error', text: 'You have entered an invalid class.' });
-					$toasts = $toasts;
+					addToast({ type: 'error', text: 'You have entered an invalid class.' });
 				}
 			} catch (e) {
-				$toasts.push({ type: 'error', text: 'Error Accessing Api: Try again later.' });
-				$toasts = $toasts;
+				addToast({ type: 'error', text: 'Error Accessing Api: Try again later.' });
 				console.error(e);
 			}
 		} else {
-			$toasts.push({ type: 'error', text: 'You have entered an invalid class.' });
-			$toasts = $toasts;
+			addToast({ type: 'error', text: 'You have entered an invalid class.' });
 		}
 	};
 	const removeClass = (id) => {
@@ -148,8 +140,7 @@
 							class:active={id === current}
 							class="mb-2"
 							on:click={() => (current = id)}
-							>{`${courses[id].section} ${courses[id].number}`}</button
-						>
+							>{`${courses[id].section} ${courses[id].number}`}</button>
 					</li>
 				{/each}
 				<!-- <li><a class="active">Sidebar Item 1</a></li>

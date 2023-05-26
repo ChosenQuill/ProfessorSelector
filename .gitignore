@@ -13,8 +13,3 @@ vite.config.ts.timestamp-*
 
 # Local Netlify folder
 .netlify
-
-# Custom Addition
-graphqlschema2payload
-grades.db-shm
-grades.db-wal

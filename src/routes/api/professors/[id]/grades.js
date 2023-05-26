@@ -8,10 +8,10 @@ import fs from "node:fs";
 // const __dirname = dirname(__filename);
 // const dbfile = resolve(__dirname, './grades.db')
 console.log("Running grades file")
-console.log("grades.db", fs.existsSync("grades.db"))
+console.log("./grades/grades.db", fs.existsSync("./grades/grades.db"))
 
 // const db = new Database(dbfile)
-const file = fs.readFileSync("grades.db");
+const file = fs.readFileSync("./grades/grades.db");
 const db = new Database(file);
 // db.pragma('journal_mode = WAL'); // No need for WAL since we do all reads and no writes.
 

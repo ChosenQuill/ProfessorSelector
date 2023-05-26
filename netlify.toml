@@ -3,4 +3,4 @@
   publish = "build"
 
 [functions]
-  included_files = ["grades.db"]
+  included_files = ["grades/grades.db"]
