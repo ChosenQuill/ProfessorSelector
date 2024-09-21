@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
 interface Toast {
     id?: number,
@@ -7,7 +7,7 @@ interface Toast {
     timeout?: number
 }
 
-export const toasts = writable([]);
+export const toasts : Writable<Toast[]> = writable([]);
 
 export const addToast = (toast: Toast) : number => {
     const id = Math.floor(Math.random() * 10000);

@@ -1,0 +1,3 @@
+[submodule "grades/utd-grades"]
+	path = grades/utd-grades
+	url = https://github.com/acmutd/utd-grades

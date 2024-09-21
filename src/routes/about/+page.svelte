@@ -1,8 +1,13 @@
+<script>
+	import building from '$lib/images/building.webp'
+</script>
+
 <main class="main h-full w-full hero flex-grow">
 	<div class="hero-content flex-col lg:flex-row-reverse w-full">
+		<!-- src="https://placeimg.com/260/400/arch" -->
 		<img
-			alt="Cool Scenery"
-			src="https://placeimg.com/260/400/arch"
+			alt="Asthetic Building"
+			src={building}
 			class="max-w-sm rounded-lg shadow-2xl"
 		/>
 		<div class="w-80">

@@ -44,10 +44,10 @@ con.commit()
 
     # I know you hate me plz don't hate me
 
-for fileName in os.listdir("./raw_data"):
+for fileName in os.listdir("./utd-grades/raw_data"):
     cur = con.cursor()
     print("Scanning File: " + fileName)
-    with open("./raw_data/" + fileName) as file:
+    with open("./utd-grades/raw_data/" + fileName) as file:
         csv_reader = csv.reader(file, delimiter=",")
         
         first = False
@@ -76,7 +76,7 @@ for fileName in os.listdir("./raw_data"):
             
             else:
                 cur.execute("INSERT OR IGNORE INTO courses (subject, number) VALUES (?, ?);", (row[colMaps["Subject"]], row[colMaps["Number"]])).lastrowid
-                gradeCount = [int(row[colMaps[name]] if row[colMaps[name]] else '0') for name in ngNames]
+                gradeCount = [int(float(row[colMaps[name]] if row[colMaps[name]] else '0')) for name in ngNames]
                 count = sum(gradeCount)
                 avg = sum([c * gradeMap[i] for i, c in enumerate(gradeCount)]) / count if count != 0 else 0
                 classID = cur.execute("INSERT INTO classes (course_id, section, season, year, ap, a, am, bp, b, bm, cp, c, cm, dp, d, dm, f, nf, cr, nc, p, i, w, average, count) VALUES ((SELECT id FROM courses where subject = ? and number = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", (*[row[colMaps[n]] for n in ["Subject", "Number", "Section"]], colMaps["season"], colMaps["year"], *[row[colMaps[name]] if name in colMaps else 0 for name in gradeNames], avg, count)).lastrowid

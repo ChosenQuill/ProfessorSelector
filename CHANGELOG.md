@@ -1,7 +1,10 @@
 # Changelog
 
-## TODO
+## Notes
 - Feature: Details panel with grades and rmp distribution
+This feature is on hold as the primary function of this application is to focus on selecting your professors and building a roster, rather than a data analytics platform.  
+
+## TODO
 - Feature: Mobile Optimization
 - Feature: Professor Fix File (For not found professors)
 - Improvement: Switch to List View
@@ -19,3 +22,8 @@
 
 0.0.6: 5/25/23 - 5/26/23
 - Improvement: Cleanup of codebase
+- Improvement: Upgrade to latest sveltekit version
+
+0.0.7: 6/5/23
+- Feature: Upgraded to DaisyUI 3.0, modified to support new ui design
+- 

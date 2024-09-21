@@ -1,7 +1,10 @@
 # Grades
+For grade data, we build a small sqlite db that compiles together all csvs into one simple db. 
+
+Data is taken from [UTD Grades](https://github.com/acmutd/utd-grades).
 
 # Building
-Run `pnpm run start` to build the grades.db file.
+Run `poetry run python3 ./main.py` to build the grades.db file.
 
 # Format
 
