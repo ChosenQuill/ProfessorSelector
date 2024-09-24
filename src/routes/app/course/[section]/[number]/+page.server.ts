@@ -11,30 +11,26 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-import { getCourseInfo, getProfessors } from '$lib/api/data';
+import { fetchCourse, fetchProfs} from '$lib/api/data';
 import { getNextSemester } from '$lib/helper';
 
-// Simple memory caching, should use a redis database or sql server in production. 
-const cache = {}
 
 export const load: PageServerLoad = async ({ params, url }) => {
-    if(!Number.isInteger(params.number)) {
-        error(404, 'Not Found')
+    if(!/\d+/g.test(params.number)) {
+        console.log("Invalid Course Param");
+        error(404, 'Not Found');
     }
 
-    const courseStr = String(params.section + params.number);
-	const course = !Object.hasOwn(cache, courseStr) ? await getCourseInfo(params.section, params.number) : cache[courseStr];
-    console.log("COURSE" + course)
+	const course = await fetchCourse(params.section, params.number);
 
 	if (course == null) {
         error(404, 'Not found');
-        console.log("Errored")
-        return;
 	}
 
+    // Removed check for semester. 
     return {
         course,
-        professors: getProfessors(course?._id, url.searchParams.get('semester') || getNextSemester())
+        professors: fetchProfs(course?._id)
     }
 
 };

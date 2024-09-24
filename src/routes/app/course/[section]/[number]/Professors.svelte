@@ -1,7 +1,12 @@
-<script>
+<script lang='ts'>
+	import type { CourseInfoType, ProfInfoType } from "$lib/api/data";
+	import { courses, semester } from "$lib/storage";
 	import { addToast } from "$lib/toasts";
 
-	export let info;
+	export let info: ProfInfoType[];
+
+	export let course: CourseInfoType;
+
 
 	const sortedMap = {
 		Rating: (prof) => prof.rmp.avgRatingRounded,
@@ -35,8 +40,16 @@
 	}
 
 	let selected = {};
-	export let selections = [];
+	export let selections: string[] = [];
 
+	if(Object.hasOwn($courses, $semester) && Object.hasOwn($courses[$semester], course.subject_prefix + course.course_number) && $courses[$semester][course.subject_prefix + course.course_number].selections) {
+		selections = $courses[$semester][course.subject_prefix + course.course_number].selections ?? [];
+		for (const id of selections) {
+			selected[id] = true;
+		}
+	}
+
+	
 	const change = (id) => {
 		if(selected[id] === true) {
 			if(selections.length >= 3) {
@@ -45,10 +58,33 @@
 				return;
 			}
 			// Add Professor
+			// @ts-ignore
 			selections = [...selections, id];
+			$courses[$semester][course.subject_prefix + course.course_number].selections = selections;
 		} else {
 			// Remove Professor
-			selections = selections.filter(el => el !== id)
+			selections = selections.filter(el => el !== id);
+			$courses[$semester][course.subject_prefix + course.course_number].selections = selections;
+		}
+	}
+	let checked = false;
+	if(Object.hasOwn($courses, $semester) && Object.hasOwn($courses[$semester], course.subject_prefix + course.course_number)) {
+		$courses[$semester][course.subject_prefix + course.course_number].professors = info;
+		checked = $courses[$semester][course.subject_prefix + course.course_number].roster;
+	}
+
+
+	function toggle() {
+		checked = !checked;
+		if(checked) {
+			$courses[$semester][course.subject_prefix + course.course_number] = {
+				info: course,
+				professors: info,
+				roster: true
+			}
+		} else {
+			delete $courses[$semester][course.subject_prefix + course.course_number];
+			$courses = $courses;
 		}
 	}
 </script>
@@ -79,14 +115,47 @@
 	}
 	// @include custom-checkbox(30 61% 50%);
 
-</style>
+	svg {
+		transition: transform 0.3s;
+		transform-origin: center center;
+	}
 
-<div class="tabs tabs-boxed mr-auto inline-block shadow-md bg-base-200">
-	{#each Object.keys(sortedMap) as key}
-		<button on:click={() => (sortedBy = key)} class="tab" class:tab-active={sortedBy == key}>
-			{key}
-		</button>
-	{/each}
+  .rotate {
+    transform: rotate(45deg);
+  }
+
+</style>
+<div class="flex flex-row items-center">
+	<button
+	class="btn btn-circle btn-outline btn-sm mr-3"
+	class:btn-primary={checked} class:btn-active={checked}
+	on:click={toggle}
+	>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			class="h6 w6"
+			class:rotate={checked}
+		>
+			<path d="M5 12h14" />
+			<path d="M12 5v14" />
+		</svg>
+	</button>
+
+	<div class="tabs tabs-boxed mr-auto inline-block shadow-md bg-base-200">
+		{#each Object.keys(sortedMap) as key}
+			<button on:click={() => (sortedBy = key)} class="tab" class:tab-active={sortedBy == key}>
+				{key}
+			</button>
+		{/each}
+	</div>
 </div>
 <div class="overflow-x-auto w-full pt-4">
 	<table class="table">
@@ -125,13 +194,13 @@
 						</div>
 					</td>
 					<td class="font-semibold ">
-						{prof.rmp.avgRatingRounded ? Number(prof.rmp.avgRatingRounded).toFixed(1) : '?'}
+						{prof.rmp?.avgRatingRounded ? Number(prof.rmp.avgRatingRounded).toFixed(1) : '?'}
 					</td>
 					<td>
-						{prof.rmp.avgDifficulty ? Number(prof.rmp.avgDifficulty).toFixed(1) : '?'}
+						{prof.rmp?.avgDifficulty ? Number(prof.rmp.avgDifficulty).toFixed(1) : '?'}
 					</td>
 					<td>
-						{prof.rmp.numRatings ? Number(prof.rmp.wouldTakeAgainPercentRounded).toFixed(0) : '?'}%
+						{prof.rmp?.numRatings ? Number(prof.rmp.wouldTakeAgainPercentRounded).toFixed(0) : '?'}%
 					</td>
 					<td>
 						{prof.rmp?.ratingsDistribution?.total ? prof.rmp.ratingsDistribution.total : '?'}

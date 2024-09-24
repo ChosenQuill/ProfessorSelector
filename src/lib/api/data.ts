@@ -5,6 +5,7 @@ import Database from 'better-sqlite3'
 import fs from "node:fs";
 
 import * as dotenv from 'dotenv'
+import { cacheCourse, cacheProfessors, cachingEnabled, getCacheCourse, getCacheProfs } from "$lib/cache";
 dotenv.config()
 
 // RateMyProfessor Data
@@ -121,13 +122,30 @@ export async function getCourseInfo(section: string, number: string) : Promise<u
         } else {
             return null;
         }
-    } else{
+    } else {
         console.error(json);
         return undefined;
     }
 }
 
+export async function fetchCourse(section: string, number: string): Promise<CourseInfoType | null | undefined> {
+    if(!cachingEnabled) {
+        return await getCourseInfo(section, number);
+    }
+    const cache = await getCacheCourse(section + number);
+    if(!cache) {
+        const res = await getCourseInfo(section, number);
+        if(res == null) {
+            return null;
+        } 
+        cacheCourse(res);
+        return res;
+    }
+    return cache;
+}
 
+
+// Likely should zod safe parse the data here to ensure we are either returning profIntoType array, or null. 
 export async function getProfessors(courseID: string, season: string): Promise<undefined | null | ProfInfoType[]> {
     // https://www.utdnebula.com/docs/maintainers/Nebula%20API/Endpoints/section#example-response
     // TODO session is hardcoded, might be better to dynamically figure out what is the next season based off of date. 
@@ -160,6 +178,24 @@ export async function getProfessors(courseID: string, season: string): Promise<u
         return prof2r - prof1r;
     });
 }
+
+export async function fetchProfs(courseID: string): Promise<ProfInfoType[] | null | undefined> {
+    if(!cachingEnabled) {
+        return await getProfessors(courseID, '22F');
+    }
+    const cache = await getCacheProfs(courseID);
+    if(!cache) {
+        const res = await getProfessors(courseID, '22F');
+        // console.log(res)
+        if(res == null) {
+            return null;
+        } 
+        cacheProfessors(courseID, res);
+        return res;
+    }
+    return cache;
+}
+
 
 export const ProfessorSchema = z.object({
     _id: z.string(),
@@ -213,3 +249,4 @@ export async function getProfessorData(profID: string): Promise<ProfInfoType | n
         return undefined;
     }
 }
+

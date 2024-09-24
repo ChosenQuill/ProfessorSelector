@@ -7,6 +7,8 @@
     import { page } from '$app/stores';  
 	import { getNextSemester } from '$lib/helper';
 
+	import { slide } from "svelte/transition";
+
 	let className = '';
 	let current = ''
 
@@ -19,7 +21,6 @@
 		if (res) {
             const section = res[1].toUpperCase();
             const number = res[3];
-            // const url = $page.url
             goto(`/app/course/${section}/${number}${$semester != getNextSemester() ? '?semester=' + $semester : ''}`);
         } else {
 			addToast({ type: 'error', text: 'You have entered an invalid class.' });
@@ -27,6 +28,9 @@
     }
 
     const removeClass = (id) => {
+		$courses[$semester][id].roster = false;
+		$courses = $courses;
+
 		// const ids = Object.keys(courses);
 		// if (ids.length <= 1) {
 		// 	current = '';
@@ -132,12 +136,13 @@
 		<div class="card bg-base-300">
 			<div class="card-body">
 				<h2 class="card-title">Add A Class</h2>
-				<label class="label">
+				<label class="label" for="class-input">
 					<span class="label-text">What is the class section and number?</span>
 				</label>
 				<!-- <input type="text" placeholder="Type here. Ex: SE.3345" class="input input-bordered w-full max-w-xs" /> -->
 				<div class="join">
 					<input
+						id="class-input"
 						type="text"
 						placeholder="Type here. Ex: SE.3345"
 						class="join-item input input-bordered"
@@ -153,7 +158,7 @@
 							><path
 								stroke-linecap="round"
 								stroke-linejoin="round"
-								stroke-width="2"
+								stroke-width="2" 
 								d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
 							/></svg
 						>
@@ -165,51 +170,60 @@
 			</div>
 		</div>
 		<!-- Courses Card -->
-		 {#if Object.keys($courses[$semester]).length > 0} 
-		<div class="flex w-full bg-base-200 rounded-box mt-4 pt-2">
-			<ul class="menu p-4 pr-2 w-full">
-				<!-- <li class="menu-title">
-                    <span>Courses</span>
-                  </li> -->
-				{#each Object.keys($courses[$semester]) as id (id)}
-					<!--  href=`./${c.name}.${c.section}` -->
-					<!-- href="/app/class/{id}" -->
-					<li>
-						<button
-							{id}
-							class:active={id === current}
-							class="mb-2"
-							on:click={() => (current = id)}
-							>{`${$courses[$semester][id].info.subject_prefix} ${$courses[$semester][id].info.course_number}`}</button>
-					</li>
-				{/each}
-				<!-- <li><a class="active">Sidebar Item 1</a></li>
-                <li><a>Sidebar Item 2</a></li> -->
-			</ul>
-			<div class="pr-2 py-4 w-14 flex flex-col">
-				{#each Object.keys($courses[$semester]) as id (id)}
-					<button
-						class="btn btn-square btn-outline btn-sm mt-[0.2rem] mb-2"
-						style="border: none;"
-						on:click={() => removeClass(id)}
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M6 18L18 6M6 6l12 12"
-							/></svg
-						>
-					</button>
-				{/each}
+		 {#if Object.keys($courses[$semester]).length > 0}
+		 <div class="flex flex-col w-full bg-base-300 card mt-4 pt-2">
+			<h2 class="card-title ml-7 mt-5">
+				Courses
+			</h2>
+			<div class="flex w-full">
+				<ul class="menu p-4 pr-2 w-full">
+					<!-- <li class="menu-title">
+						<span>Courses</span>
+					</li> -->
+					{#each Object.entries($courses[$semester]).filter(obj => obj[1]?.roster) as [id, course] (id)}
+						<!--  href=`./${c.name}.${c.section}` -->
+						<!-- href="/app/class/{id}" -->
+							<li>
+								<button
+									{id}
+									class:active={id === current}
+									class="mb-2"
+									transition:slide
+									on:click={() => {current = id; goto(`/app/course/${$courses[$semester][id].info.subject_prefix}/${$courses[$semester][id].info.course_number}`);}}
+									>{`${$courses[$semester][id].info.subject_prefix} ${$courses[$semester][id].info.course_number}`}</button>
+							</li>
+					{/each}
+					<!-- <li><a class="active">Sidebar Item 1</a></li>
+					<li><a>Sidebar Item 2</a></li> -->
+				</ul>
+				<div class="pr-2 py-4 w-14 flex flex-col">
+					{#each Object.entries($courses[$semester]).filter(obj => obj[1]?.roster) as [id, course] (id)}
+						<div transition:slide>
+							<button
+								class="btn btn-square btn-outline btn-sm mt-[0.2rem] mb-2"
+								style="border: none;"
+								on:click={() => removeClass(id)}
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-6 w-6"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+
+									><path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M6 18L18 6M6 6l12 12"
+									/></svg
+								>
+							</button>
+						</div>
+					{/each}
+				</div>
 			</div>
-		</div>
+		 </div> 
 		{/if}
 	</section>
 	<div class="divider divider-horizontal mr-3" />

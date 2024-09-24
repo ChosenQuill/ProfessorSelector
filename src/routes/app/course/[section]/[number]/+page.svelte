@@ -3,17 +3,17 @@
 	import Course from "./Course.svelte";
     import Professors from "./Professors.svelte";
     import { semester, courses } from "$lib/storage";
+	import type { ProfInfoType } from "$lib/api/data";
 
     export let data: PageData;
     $: course = data.course;
 
-    (async () => {
-        const profs = await data.professors;
-
-        // $courses[$semester][data.course.name + ]
-        console.log(course)
-        console.log(profs)
-    })()
+    $courses[$semester][data.course.subject_prefix + data.course.course_number] = {
+        info: data.course,
+        roster: true
+    }
+    $courses = $courses;
+    
 </script>
 
 <Course info={course} />
@@ -22,9 +22,8 @@
     <progress class="progress w-full" />
 {:then professors}
     {#if professors}
-        <Professors info={professors} />
+        <Professors course={course} info={professors} />
     {:else}
         Professor Data Not Found
     {/if}
-
 {/await}

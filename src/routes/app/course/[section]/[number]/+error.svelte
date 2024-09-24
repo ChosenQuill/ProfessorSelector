@@ -10,13 +10,10 @@
     <div class="flex flex-col  ml-4">
         <h1 class="flex items-center text-4xl font-bold">
             {#if $page.status == 404}
-                Page Not Found
+                Course Not Found
             {:else}
                 {$page.status}: {$page?.error?.message}
             {/if}
         </h1>
-        <a href="/" class="btn btn-primary mt-4 w-40">
-            Back to home
-        </a>
     </div>
 </div>

@@ -24,8 +24,9 @@ interface Courses {
     [semester: string]: {
         [courseId: string] : {
             info: CourseInfoType
-            professors: ProfInfoType[]
+            professors?: ProfInfoType[]
             roster: boolean
+            selections?: string[]
         }
     }
 }

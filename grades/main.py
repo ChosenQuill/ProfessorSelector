@@ -42,8 +42,6 @@ with open("./db_schema.sql") as file:
         cur.execute(query)
 con.commit()
 
-    # I know you hate me plz don't hate me
-
 for fileName in os.listdir("./utd-grades/raw_data"):
     cur = con.cursor()
     print("Scanning File: " + fileName)
