@@ -41,9 +41,10 @@
 
 	let selected = {};
 	export let selections: string[] = [];
+	// console.log($courses, Object.hasOwn($courses, $semester) && Object.hasOwn($courses[$semester], course.subject_prefix + course.course_number) && Object.hasOwn($courses[$semester][course.subject_prefix + course.course_number], "selections"))
 
 	if(Object.hasOwn($courses, $semester) && Object.hasOwn($courses[$semester], course.subject_prefix + course.course_number) && $courses[$semester][course.subject_prefix + course.course_number].selections) {
-		selections = $courses[$semester][course.subject_prefix + course.course_number].selections ?? [];
+		selections = $courses[$semester][course.subject_prefix + course.course_number].selections ?? [];  
 		for (const id of selections) {
 			selected[id] = true;
 		}
@@ -61,11 +62,16 @@
 			// @ts-ignore
 			selections = [...selections, id];
 			$courses[$semester][course.subject_prefix + course.course_number].selections = selections;
+			// $courses = $courses;
+			console.log($courses)
 		} else {
 			// Remove Professor
 			selections = selections.filter(el => el !== id);
 			$courses[$semester][course.subject_prefix + course.course_number].selections = selections;
+			// $courses = $courses;
 		}
+		
+		console.log(selections)
 	}
 	let checked = false;
 	if(Object.hasOwn($courses, $semester) && Object.hasOwn($courses[$semester], course.subject_prefix + course.course_number)) {
@@ -83,7 +89,7 @@
 				roster: true
 			}
 		} else {
-			delete $courses[$semester][course.subject_prefix + course.course_number];
+			$courses[$semester][course.subject_prefix + course.course_number].roster = false;
 			$courses = $courses;
 		}
 	}

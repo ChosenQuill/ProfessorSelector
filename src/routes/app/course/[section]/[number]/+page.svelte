@@ -8,11 +8,14 @@
     export let data: PageData;
     $: course = data.course;
 
-    $courses[$semester][data.course.subject_prefix + data.course.course_number] = {
-        info: data.course,
-        roster: true
+    // Checks to see if the course is already persisted. If its not, creates a new entry with the info and the roster.
+    if(Object.hasOwn($courses, $semester) && !Object.hasOwn($courses[$semester], data.course.subject_prefix + data.course.course_number)) {
+        $courses[$semester][data.course.subject_prefix + data.course.course_number] = {
+            info: data.course,
+            roster: false
+        }
+        $courses = $courses;
     }
-    $courses = $courses;
     
 </script>
 

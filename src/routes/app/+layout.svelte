@@ -1,7 +1,7 @@
 <script>
 	import { addToast } from '$lib/toasts';
 	import { browser } from '$app/environment';
-	import { courses, semester } from '$lib/storage';
+	import { courses, menu, semester } from '$lib/storage';
 	import { redirect } from '@sveltejs/kit';
 	import { goto } from '$app/navigation';
     import { page } from '$app/stores';  
@@ -10,7 +10,7 @@
 	import { slide } from "svelte/transition";
 
 	let className = '';
-	let current = ''
+	// let current = ''
 
     const addClass = async () => {
         if(!className) {
@@ -41,6 +41,7 @@
 		// delete courses[id];
 		// courses.set(courses);
 	};
+	console.log($page.url.pathname)
 
 
 	// const addClass = async () => {
@@ -131,8 +132,8 @@
 
 </script>
 
-<div class="flex flex-col md:flex-row mx-8 h-full mb-2">
-	<section class="flex flex-col">
+<div class="flex flex-col md:flex-row mx-8 h-full mb-2 ">
+	<section class="flex-col md:flex" transition:slide>
 		<div class="card bg-base-300">
 			<div class="card-body">
 				<h2 class="card-title">Add A Class</h2>
@@ -172,9 +173,20 @@
 		<!-- Courses Card -->
 		 {#if Object.keys($courses[$semester]).length > 0}
 		 <div class="flex flex-col w-full bg-base-300 card mt-4 pt-2">
-			<h2 class="card-title ml-7 mt-5">
-				Courses
-			</h2>
+			<div class="flex flex-row w-full items-center">
+				<h2 class="card-title ml-7 mt-5 w-full">
+					Courses
+				</h2>
+				<a
+					class="btn btn-square btn-outline btn-sm mt-5 mr-4 "
+					class:btn-active={$page.url.pathname === '/app'}
+					style="border: none;"
+					href="/app"
+				>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+				</a>
+			</div>
+			
 			<div class="flex w-full">
 				<ul class="menu p-4 pr-2 w-full">
 					<!-- <li class="menu-title">
@@ -186,10 +198,10 @@
 							<li>
 								<button
 									{id}
-									class:active={id === current}
+									class:active={$page.url.pathname === '/app/course/' + course.info.subject_prefix + '/' + course.info.course_number }
 									class="mb-2"
 									transition:slide
-									on:click={() => {current = id; goto(`/app/course/${$courses[$semester][id].info.subject_prefix}/${$courses[$semester][id].info.course_number}`);}}
+									on:click={() => {goto(`/app/course/${$courses[$semester][id].info.subject_prefix}/${$courses[$semester][id].info.course_number}`);}}
 									>{`${$courses[$semester][id].info.subject_prefix} ${$courses[$semester][id].info.course_number}`}</button>
 							</li>
 					{/each}
@@ -226,9 +238,9 @@
 		 </div> 
 		{/if}
 	</section>
-	<div class="divider divider-horizontal mr-3" />
+	<div class="md:flex divider divider-horizontal mr-4" />
 	<!-- class="flex-grow" -->
-	<section class="flex flex-col overflow-x-auto">
+	<section class="flex flex-col overflow-x-auto w-full">
 		<!-- Old slot -->
 		<slot />
         <!-- {#if courses[current]}

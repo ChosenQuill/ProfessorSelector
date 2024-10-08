@@ -2,7 +2,13 @@
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gold: '#ffbe00',
+        silver: '#a6adbb',
+        bronze: '#ce8032',
+      }
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
