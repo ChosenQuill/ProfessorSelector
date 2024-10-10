@@ -9,6 +9,8 @@
 
 	import { toasts } from '$lib/toasts';
 	import { page } from '$app/stores';
+
+	import { menu } from '$lib/storage';
 </script>
 
 <svelte:head>
@@ -19,8 +21,15 @@
 </svelte:head>
 
 <div class="main-flex app">
-	<header class="p-4 w-full flex text-lg">
+	<header class="p-4 w-full flex text-lg z-50">
 		<ul class="pop flex flex-row">
+			<button on:click={ev => {
+					if( $page.url.pathname.startsWith('/app')) {
+						$menu = !$menu}
+					}
+				} class:highlight={$menu} class="block md:hidden mr-2 mt-[0.1rem] transition-colors">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+			</button>
 			<li><a href="/" class:highlight={$page.url.pathname == '/'}>Home</a></li>
 			<li><a href="/app" class:highlight={$page.url.pathname.startsWith('/app')}>App</a></li>
 			<li><a href="/about" class:highlight={$page.url.pathname.startsWith('/about')}>About</a></li>
@@ -38,7 +47,9 @@
 			</picture>
 			<p>Xeno Industries LLC.<br />Providing reliable tech since 2018</p>
 		</div>
-		<div class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+		<!-- instead of these elements: md:place-self-center md:justify-self-end  -->
+		 <!-- We use these to not modify footer size:  hidden md:grid -->
+		<div class="grid-flow-col gap-4 justify-self-end hidden md:grid">
 			<a target="_blank" rel="noreferrer" href="https://twitter.com/chosenquill" aria-label="Twitter"
 				><svg
 					xmlns="http://www.w3.org/2000/svg"

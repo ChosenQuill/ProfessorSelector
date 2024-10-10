@@ -155,12 +155,23 @@
 		</svg>
 	</button>
 
-	<div class="tabs tabs-boxed mr-auto inline-block shadow-md bg-base-200">
+	<!-- Tabs for medium and larger screens -->
+	<div class="tabs tabs-boxed mr-auto inline-block shadow-md bg-base-200 hidden md:block">
 		{#each Object.keys(sortedMap) as key}
 			<button on:click={() => (sortedBy = key)} class="tab" class:tab-active={sortedBy == key}>
 				{key}
 			</button>
 		{/each}
+	</div>
+
+	<!-- Dropdown for small screens -->
+	<div id="sort" class="md:hidden flex flex-row bg-base-200 card items-center p-2">
+		<label class="w-28 pl-2 font-bold" for="sort">Sort By</label>
+		<select bind:value={sortedBy} class="select select-bordered w-full max-w-xs">
+			{#each Object.keys(sortedMap) as key}
+				<option value={key}>{key}</option>
+			{/each}
+		</select>
 	</div>
 </div>
 <div class="overflow-x-auto w-full pt-4">

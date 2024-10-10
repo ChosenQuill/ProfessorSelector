@@ -1,36 +1,39 @@
 <script>
+	import { onMount } from 'svelte';
 	import { addToast } from '$lib/toasts';
 	import { browser } from '$app/environment';
 	import { courses, menu, semester } from '$lib/storage';
-	import { redirect } from '@sveltejs/kit';
 	import { goto } from '$app/navigation';
-    import { page } from '$app/stores';  
+	import { page } from '$app/stores';  
 	import { getNextSemester } from '$lib/helper';
 
 	import { slide } from "svelte/transition";
-
+	
 	let className = '';
 	// let current = ''
 
-    const addClass = async () => {
-        if(!className) {
-            return;
-        }
-        const classRE = /(\w+)( |\.)(\d+)/g;
+	const addClass = async () => {
+		if (!className) {
+			return;
+		}
+		const classRE = /(\w+)( |\.)(\d+)/g;
 		const res = classRE.exec(className);
 		if (res) {
-            const section = res[1].toUpperCase();
-            const number = res[3];
-            goto(`/app/course/${section}/${number}${$semester != getNextSemester() ? '?semester=' + $semester : ''}`);
-        } else {
+			const section = res[1].toUpperCase();
+			const number = res[3];
+			// Close the menu on mobile after adding a class
+			menu.set(false);
+			goto(`/app/course/${section}/${number}${$semester != getNextSemester() ? '?semester=' + $semester : ''}`);
+		} else {
 			addToast({ type: 'error', text: 'You have entered an invalid class.' });
 		}
-    }
+	}
 
-    const removeClass = (id) => {
+	const removeClass = (id) => {
 		$courses[$semester][id].roster = false;
 		$courses = $courses;
 
+		// Additional logic can be uncommented and used as needed
 		// const ids = Object.keys(courses);
 		// if (ids.length <= 1) {
 		// 	current = '';
@@ -41,6 +44,7 @@
 		// delete courses[id];
 		// courses.set(courses);
 	};
+
 	console.log($page.url.pathname)
 
 
@@ -124,126 +128,175 @@
 	if(!Object.hasOwn($courses, $semester)) {
 		courses.update(x => {
 			return {
-				...x,
-				[$semester]: {}
-			}
-		});
+			...x,
+			[$semester]: {}
+		}});
 	}
 
+	let isMobile = false;
+
+	onMount(() => {
+		if (browser) {
+			const checkMobile = () => {
+				isMobile = window.innerWidth < 768;
+				// Automatically show the menu on desktop
+				if (!isMobile) {
+					menu.set(true);
+				} else {
+					menu.set(false)
+				}
+			}
+			checkMobile();
+			window.addEventListener('resize', checkMobile);
+			return () => {
+				window.removeEventListener('resize', checkMobile);
+			}
+		}
+	});
+
+	// Reactive statement to control body overflow
+	$: if ($menu && isMobile) {
+		document.body.style.overflow = 'hidden';
+	} else {
+		document.body.style.overflow = '';
+	}
 </script>
 
-<div class="flex flex-col md:flex-row mx-8 h-full mb-2 ">
-	<section class="flex-col md:flex" transition:slide>
-		<div class="card bg-base-300">
-			<div class="card-body">
-				<h2 class="card-title">Add A Class</h2>
-				<label class="label" for="class-input">
-					<span class="label-text">What is the class section and number?</span>
-				</label>
-				<!-- <input type="text" placeholder="Type here. Ex: SE.3345" class="input input-bordered w-full max-w-xs" /> -->
-				<div class="join">
-					<input
-						id="class-input"
-						type="text"
-						placeholder="Type here. Ex: SE.3345"
-						class="join-item input input-bordered"
-						bind:value={className}
-					/>
-					<button class="btn btn-square btn-primary join-item" on:click={addClass}>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2" 
-								d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-							/></svg
-						>
+<div class="flex flex-col md:flex-row mx-8 h-full mb-2">
+	<!-- Menu Section -->
+	<section
+		class="flex-col md:flex fixed md:static top-0 left-0 bg-base-100 w-full h-full md:w-auto md:h-auto z-10 p-4 md:p-0 transform transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0"
+		class:translate-x-0={$menu}
+		class:-translate-x-full={!$menu}
+	>
+		<div class="mt-14 md:mt-0">
+			<div class="card bg-base-300">
+				<div class="card-body">
+					<h2 class="card-title">Add A Class</h2>
+					<label class="label" for="class-input">
+						<span class="label-text">What is the class section and number?</span>
+					</label>
+					<!-- Input for adding a class -->
+					<div class="join">
+						<input
+							id="class-input"
+							type="text"
+							placeholder="Type here. Ex: SE.3345"
+							class="join-item input input-bordered"
+							bind:value={className}
+						/>
+						<button class="btn btn-square btn-primary join-item" on:click={addClass}>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2" 
+									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+								/>
+							</svg>
+						</button>
+					</div>
+					<!-- <div class="card-actions justify-end">
+						<button class="btn btn-primary mt-2">Submit</button>
+					</div> -->
+				</div>
+			</div>
+			<!-- Courses Card -->
+			{#if Object.keys($courses[$semester]).length > 0}
+			<div class="flex flex-col w-full bg-base-300 card mt-4 pt-2">
+				<div class="flex flex-row w-full items-center">
+					<h2 class="card-title ml-7 mt-5 w-full">
+						Courses
+					</h2>
+					<button
+						class="btn btn-square btn-outline btn-sm mt-5 mr-4"
+						class:btn-active={$page.url.pathname === '/app'}
+						style="border: none;"
+						on:click={() => {
+							// Close the menu on mobile when navigating to home
+							menu.set(false); 
+							goto("/app");
+						}}
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+							<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
+							<path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+						</svg>
 					</button>
 				</div>
-				<!-- <div class="card-actions justify-end">
-                    <button class="btn btn-primary mt-2">Submit</button>
-                </div> -->
-			</div>
-		</div>
-		<!-- Courses Card -->
-		 {#if Object.keys($courses[$semester]).length > 0}
-		 <div class="flex flex-col w-full bg-base-300 card mt-4 pt-2">
-			<div class="flex flex-row w-full items-center">
-				<h2 class="card-title ml-7 mt-5 w-full">
-					Courses
-				</h2>
-				<a
-					class="btn btn-square btn-outline btn-sm mt-5 mr-4 "
-					class:btn-active={$page.url.pathname === '/app'}
-					style="border: none;"
-					href="/app"
-				>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-				</a>
-			</div>
-			
-			<div class="flex w-full">
-				<ul class="menu p-4 pr-2 w-full">
-					<!-- <li class="menu-title">
-						<span>Courses</span>
-					</li> -->
-					{#each Object.entries($courses[$semester]).filter(obj => obj[1]?.roster) as [id, course] (id)}
-						<!--  href=`./${c.name}.${c.section}` -->
-						<!-- href="/app/class/{id}" -->
+				
+				<div class="flex w-full">
+					<ul class="menu p-4 pr-2 w-full">
+						<!-- Iterate over courses and display them -->
+						{#each Object.entries($courses[$semester]).filter(obj => obj[1]?.roster) as [id, course] (id)}
 							<li>
 								<button
 									{id}
 									class:active={$page.url.pathname === '/app/course/' + course.info.subject_prefix + '/' + course.info.course_number }
 									class="mb-2"
 									transition:slide
-									on:click={() => {goto(`/app/course/${$courses[$semester][id].info.subject_prefix}/${$courses[$semester][id].info.course_number}`);}}
-									>{`${$courses[$semester][id].info.subject_prefix} ${$courses[$semester][id].info.course_number}`}</button>
-							</li>
-					{/each}
-					<!-- <li><a class="active">Sidebar Item 1</a></li>
-					<li><a>Sidebar Item 2</a></li> -->
-				</ul>
-				<div class="pr-2 py-4 w-14 flex flex-col">
-					{#each Object.entries($courses[$semester]).filter(obj => obj[1]?.roster) as [id, course] (id)}
-						<div transition:slide>
-							<button
-								class="btn btn-square btn-outline btn-sm mt-[0.2rem] mb-2"
-								style="border: none;"
-								on:click={() => removeClass(id)}
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									class="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-
-									><path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M6 18L18 6M6 6l12 12"
-									/></svg
+									on:click={() => {
+										// Close the menu on mobile when navigating to a course
+										menu.set(false); 
+										goto(`/app/course/${$courses[$semester][id].info.subject_prefix}/${$courses[$semester][id].info.course_number}`);
+									}}
 								>
-							</button>
-						</div>
-					{/each}
+									{`${$courses[$semester][id].info.subject_prefix} ${$courses[$semester][id].info.course_number}`}
+								</button>
+							</li>
+						{/each}
+						<!-- Additional menu items can be added here -->
+						<!-- <li><a class="active">Sidebar Item 1</a></li>
+						<li><a>Sidebar Item 2</a></li> -->
+					</ul>
+					<!-- Buttons for removing classes -->
+					<div class="pr-2 py-4 w-14 flex flex-col">
+						{#each Object.entries($courses[$semester]).filter(obj => obj[1]?.roster) as [id, course] (id)}
+							<div transition:slide>
+								<button
+									class="btn btn-square btn-outline btn-sm mt-[0.2rem] mb-2"
+									style="border: none;"
+									on:click={() => removeClass(id)}
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-6 w-6"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M6 18L18 6M6 6l12 12"
+										/>
+									</svg>
+								</button>
+							</div>
+						{/each}
+					</div>
 				</div>
-			</div>
-		 </div> 
-		{/if}
+			</div> 
+			{/if}
+		</div>
 	</section>
-	<div class="md:flex divider divider-horizontal mr-4" />
-	<!-- class="flex-grow" -->
+
+	<!-- Divider -->
+	<div class="divider divider-horizontal mr-4 hidden md:flex"></div>
+
+	<!-- Main Content Section -->
 	<section class="flex flex-col overflow-x-auto w-full">
-		<!-- Old slot -->
+		<!-- Slot for main content -->
 		<slot />
-        <!-- {#if courses[current]}
+		<!-- Example content rendering (commented out) -->
+		<!-- {#if courses[current]}
 			<Course info={courses[current].course} />
 			{#if courses[current].professors != null}
 				<Professors info={courses[current].professors} />

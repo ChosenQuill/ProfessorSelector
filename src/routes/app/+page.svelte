@@ -7,11 +7,11 @@
 
 
 {#if Object.entries($courses[$semester]).filter(obj => obj[1].roster && obj[1].selections && obj[1].selections.length > 0).length > 0}
-<h1 class="card-title text-4xl font-bold mb-2">
+<!-- <h1 class="card-title text-4xl font-bold mb-2">
     Roster
-</h1>
+</h1> -->
 <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
-    <!-- <div class="bg-base-200 card ">
+    <div class="bg-base-200 card ">
         <div class="card-body">
             <h1 class="card-title text-4xl font-bold mb-2">
                 Roster
@@ -31,11 +31,11 @@
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                   </div>
-                  <div class="stat-title">Downloads</div>
-                  <div class="stat-value">31K</div>
-                  <div class="stat-desc">Jan 1st - Feb 1st</div>
+                  <div class="stat-title">Classes</div>
+                  <div class="stat-value">{Object.entries($courses[$semester]).length}</div>
+                  <div class="stat-desc">classes added</div>
                 </div>
-              
+                <!-- TODO: ADD MORE PROPER METRICS -->
                 <div class="stat">
                   <div class="stat-figure text-secondary">
                     <svg
@@ -75,7 +75,7 @@
                 </div>
               </div>
         </div>
-    </div> -->
+    </div>
     
     <RosterCard number={0} color="gold" />
     <RosterCard number={1} color="silver" />
