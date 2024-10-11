@@ -45,7 +45,7 @@
 		// courses.set(courses);
 	};
 
-	console.log($page.url.pathname)
+	// console.log($page.url.pathname)
 
 
 	// const addClass = async () => {
@@ -155,10 +155,12 @@
 	});
 
 	// Reactive statement to control body overflow
-	$: if ($menu && isMobile) {
-		document.body.style.overflow = 'hidden';
-	} else {
-		document.body.style.overflow = '';
+	$: if (browser) {
+		if ($menu && isMobile) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = '';
+		}
 	}
 </script>
 

@@ -63,15 +63,14 @@
 			selections = [...selections, id];
 			$courses[$semester][course.subject_prefix + course.course_number].selections = selections;
 			// $courses = $courses;
-			console.log($courses)
+			// console.log($courses)
 		} else {
 			// Remove Professor
 			selections = selections.filter(el => el !== id);
 			$courses[$semester][course.subject_prefix + course.course_number].selections = selections;
 			// $courses = $courses;
 		}
-		
-		console.log(selections)
+		// console.log(selections)
 	}
 	let checked = false;
 	if(Object.hasOwn($courses, $semester) && Object.hasOwn($courses[$semester], course.subject_prefix + course.course_number)) {

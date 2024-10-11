@@ -1,7 +1,7 @@
 <script>
     import { courses, semester } from "$lib/storage";
 	import RosterCard from "./RosterCard.svelte";
-    console.log($courses[$semester])
+    // console.log($courses[$semester])
     console.log(Object.entries($courses[$semester]).filter(obj => obj[1].selections && obj[1].selections.length > 0).length > 0)
 </script>
 

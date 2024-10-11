@@ -75,8 +75,20 @@ const db = new Database(file);
 
 const query = "SELECT SUM(average) / count(average) AS average FROM classes JOIN class_professor ON classes.id = class_professor.class_id where professor_id = (SELECT id FROM professors WHERE first_name LIKE ? AND last_name Like ?) AND count != 0;"
 
+// Fixes a bug where it uses last and first word to get professor grades.
+function getLastWord(str) {
+    const words = str.trim().split(/\s+/);
+    return words[words.length - 1];
+}
+
+function getFirstWord(str) {
+    const words = str.trim().split(/\s+/);
+    return words[0];
+}
+
 export function getProfessorAvg(first: string, last: string): number {
-    const rows = db.prepare(query).all([first, last]);
+    console.log(first, last)
+    const rows = db.prepare(query).all([getFirstWord(first), getLastWord(last)]);
     if (rows.length != 0)
         return rows[0].average
     return rows[0]
@@ -114,7 +126,7 @@ export const CourseInfoSchema = z.object({
 export type CourseInfoType = z.infer<typeof CourseInfoSchema>;
 
 export async function getCourseInfo(section: string, number: string) : Promise<undefined | null | CourseInfoType> {
-    const res = await fetch(`https://api.utdnebula.com/course?subject_prefix=${section}&course_number=${number}&catalog_year=22`, nebulaHeaders);
+    const res = await fetch(`https://api.utdnebula.com/course?subject_prefix=${section}&course_number=${number}&catalog_year=24`, nebulaHeaders);
     const json = await res.json();
     if(json.status === 200) {
         if(json.data && json.data.length > 0) {
@@ -181,11 +193,11 @@ export async function getProfessors(courseID: string, season: string): Promise<u
 
 export async function fetchProfs(courseID: string): Promise<ProfInfoType[] | null | undefined> {
     if(!cachingEnabled) {
-        return await getProfessors(courseID, '22F');
+        return await getProfessors(courseID, '24F');
     }
     const cache = await getCacheProfs(courseID);
     if(!cache) {
-        const res = await getProfessors(courseID, '22F');
+        const res = await getProfessors(courseID, '24F');
         // console.log(res)
         if(res == null) {
             return null;
@@ -229,7 +241,7 @@ export const ProfessorSchema = z.object({
     titles: z.array(z.string()).nullish(),
     // Additional
     rmp: ProfRatingsSchema.optional(),
-    avgGrade: z.number().optional()
+    avgGrade: z.number().nullish()
 });
 
 export type ProfInfoType = z.infer<typeof ProfessorSchema>;

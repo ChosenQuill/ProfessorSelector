@@ -6,7 +6,7 @@ import { getProfessors } from '$lib/api/data';
 export async function GET({ params }) {
     const id = params.id;
     try {
-        const professors = await getProfessors(id, "22F");
+        const professors = await getProfessors(id, "24F");
         if(professors === undefined) {
             return json("Nebula Error", { status: 500 });
         }

@@ -10,7 +10,7 @@
 </script>
 
 <h3 class="text-2xl">
-	<span class="font-bold">{info.title}</span><span>&nbsp;(Fall 2022)</span>
+	<span class="font-bold">{info.title}</span><span>&nbsp;(Fall 2024)</span>
 </h3>
 
 <p class="my-2">{desc}</p>

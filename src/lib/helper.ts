@@ -4,7 +4,7 @@ import { addToast } from "./toasts";
 import type { CourseInfoType } from "./api/data";
 
 export function getNextSemester() : string {
-    return '22F';
+    return '24F';
 }
 
 export function getCourseId(subject: string, number: string, semester?: string): string | null {

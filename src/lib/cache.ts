@@ -30,14 +30,14 @@ export function cacheCourse(course: CourseInfoType) : CourseInfoType {
         console.error("Course does not match schema, not cached.", course)
         return course;
     }
-    client.set('course:22f:' + course.subject_prefix + course.course_number, JSON.stringify(course)).then(() => {});
+    client.set('course:24F:' + course.subject_prefix + course.course_number, JSON.stringify(course)).then(() => {});
     // sets expiration date for one week 
-    client.expireAt('course:22f:' + course.subject_prefix + course.course_number, Math.floor(Date.now() / 1000) + (86400 * 7));
+    client.expireAt('course:24F:' + course.subject_prefix + course.course_number, Math.floor(Date.now() / 1000) + (86400 * 7));
     return course;
 } 
 
 export async function getCacheCourse(courseID: string): Promise<CourseInfoType | null> {
-    let courseStr = await client.get('course:22f:' + courseID);
+    let courseStr = await client.get('course:24F:' + courseID);
     if(!courseStr) {
         return null;
     }
@@ -51,13 +51,13 @@ export function cacheProfessors(courseID: string, professors: ProfInfoType[]) : 
         return professors;
     }
     // sets expiration date for one week
-    client.expireAt('professors:22f:' + courseID, Math.floor(Date.now() / 1000) + (86400 * 7));
-    client.set('professors:22f:' + courseID, JSON.stringify(professors)).then(() => {});
+    client.expireAt('professors:24F:' + courseID, Math.floor(Date.now() / 1000) + (86400 * 7));
+    client.set('professors:24F:' + courseID, JSON.stringify(professors)).then(() => {});
     return professors;
 } 
 
 export async function getCacheProfs(courseID: string): Promise<ProfInfoType[] | null> {
-    let profStr = await client.get('professors:22f:' + courseID);
+    let profStr = await client.get('professors:24F:' + courseID);
     if(!profStr) {
         return null;
     }

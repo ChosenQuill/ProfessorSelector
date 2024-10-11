@@ -32,8 +32,8 @@ interface Courses {
     }
 }
 
-export const courses = persisted<Courses>('courses', {'22F': {}});
+export const courses = persisted<Courses>('courses', {'24F': {}});
 
-export const semester = persisted<string>('semester', '22F');
+export const semester = persisted<string>('semester', '24F');
 
 export const menu = writable<boolean>(true);

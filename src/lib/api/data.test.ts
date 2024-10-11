@@ -37,3 +37,10 @@ test('getProfessors is valid', async () => {
     expect(res![0].avgGrade).not.toBeNull();
     expect(res![0]?.rmp?.avgDifficulty).not.toBeNull();
 }, 10000)
+
+
+test('Grades is valid', async () => {
+    const res = await getProfessorAvg("Mehra", "Borazjany")
+    expect(res).toBeGreaterThanOrEqual(0);
+    expect(res).toBeLessThanOrEqual(100);
+})
