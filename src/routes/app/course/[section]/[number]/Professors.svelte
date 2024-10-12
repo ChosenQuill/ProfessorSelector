@@ -82,15 +82,19 @@
 	function toggle() {
 		checked = !checked;
 		if(checked) {
-			$courses[$semester][course.subject_prefix + course.course_number] = {
-				info: course,
-				professors: info,
-				roster: true
+			if(Object.hasOwn($courses, $semester) && Object.hasOwn($courses[$semester], course.subject_prefix + course.course_number)) {
+				$courses[$semester][course.subject_prefix + course.course_number].roster = true;
+			} else {
+				$courses[$semester][course.subject_prefix + course.course_number] = {
+					info: course,
+					professors: info,
+					roster: true
+				}
 			}
 		} else {
 			$courses[$semester][course.subject_prefix + course.course_number].roster = false;
-			$courses = $courses;
 		}
+		$courses = $courses;
 	}
 </script>
 

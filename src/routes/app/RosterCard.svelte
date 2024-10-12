@@ -1,19 +1,19 @@
 <script lang="ts">
     import { courses, semester } from "$lib/storage";
     
-    export let number: number;
+    export let position: number;
     export let color: string;
 
     // This refresh is need because profile images would be incorrectly set without it, bug with svelte state
     $courses = $courses
 </script>
-{#if Object.entries($courses[$semester]).filter((obj) => obj[1]?.roster && obj[1]?.professors && obj[1]?.professors.length && obj[1]?.selections && obj[1]?.selections.length > number).length > 0}
+{#if Object.entries($courses[$semester]).filter((obj) => obj[1]?.roster && obj[1]?.professors && obj[1]?.professors.length && obj[1]?.selections && obj[1]?.selections.length > position).length > 0}
 
     <!-- This snippet is needed to allow tailwind to incorperate all classes into final css file -->
     <div class="hidden outline-gold outline-silver outline-bronze"></div>
 
     <div class="bg-base-200  outline outline-2 outline-offset-2 outline-{color} card m-2">
-        <div class="card-body">
+        <div class="card-body p-4 md:p-6">
 
             <div class="overflow-x-auto">
                 <table class="table">
@@ -27,12 +27,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each Object.entries($courses[$semester]).filter((obj) => obj[1]?.roster && obj[1]?.professors && obj[1]?.professors.length && obj[1]?.selections && obj[1]?.selections.length > number).map((obj) =>{ 
-                        obj[1].professor = obj[1].professors.find(prof => prof._id == obj[1].selections[number]);
+                    {#each Object.entries($courses[$semester]).filter((obj) => obj[1]?.roster && obj[1]?.professors && obj[1]?.professors.length && obj[1]?.selections && obj[1]?.selections.length > position).map((obj) =>{ 
+                        obj[1].professor = obj[1].professors.find(prof => prof._id == obj[1].selections[position]);
                         return obj;
                         }) as [id, course] (course.info._id) }
                     <tr>
-                        <th>{course.info.subject_prefix} {course.info.course_number}</th>
+                        <th>{course.info.subject_prefix}<br />{course.info.course_number}</th>
                         <td>{course.info.title}</td>
                         <td>
                             <div class="flex items-center space-x-3">
@@ -47,9 +47,9 @@
                             </div>
                             </div>
                         </td>
-                        <td>
+                        <td class="md:w-24">
                             <span class="text-xl font-bold">
-                                {Number(course.professors[number].rmp?.avgRatingRounded).toFixed(1)}
+                                {Number(course.professors[position].rmp?.avgRatingRounded).toFixed(1)}
                             </span>
                             <span class="text-md">/ 5</span>
                         </td>

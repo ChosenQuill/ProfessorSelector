@@ -5,7 +5,7 @@ import Database from 'better-sqlite3'
 import fs from "node:fs";
 
 import * as dotenv from 'dotenv'
-import { cacheCourse, cacheProfessors, cachingEnabled, getCacheCourse, getCacheProfs } from "$lib/cache";
+import { cacheCourse, cacheProfessors, cachingEnabled, client, getCacheCourse, getCacheProfs } from "$lib/cache";
 dotenv.config()
 
 // RateMyProfessor Data
@@ -141,7 +141,8 @@ export async function getCourseInfo(section: string, number: string) : Promise<u
 }
 
 export async function fetchCourse(section: string, number: string): Promise<CourseInfoType | null | undefined> {
-    if(!cachingEnabled) {
+    if(!cachingEnabled || !client.isReady) {
+        console.warn("Caching Disabled")
         return await getCourseInfo(section, number);
     }
     const cache = await getCacheCourse(section + number);
@@ -192,7 +193,8 @@ export async function getProfessors(courseID: string, season: string): Promise<u
 }
 
 export async function fetchProfs(courseID: string): Promise<ProfInfoType[] | null | undefined> {
-    if(!cachingEnabled) {
+    if(!cachingEnabled || !client.isReady) {
+        console.warn("Caching Disabled")
         return await getProfessors(courseID, '24F');
     }
     const cache = await getCacheProfs(courseID);

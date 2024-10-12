@@ -2,9 +2,9 @@
 	export let info;
 	let desc;
 	$: {
-		const re = /(.+hours?\)) (.+) Prerequisites?:.*/g;
+		const re = /(.+hours?\)) (.+)(?<!Prerequisites?:.*)/g;
 		const res = re.exec(info.description);
-		desc = res ? res[2] : info.description;
+		desc = res ? res[2].replaceAll(/Prerequisites?/ig, '').trim() : info.description;
 	}
 
 </script>

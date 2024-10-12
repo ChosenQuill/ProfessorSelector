@@ -4,14 +4,14 @@ import * as dotenv from 'dotenv'
 import { CourseInfoSchema, ProfessorSchema, type CourseInfoType, type ProfInfoType } from './api/data';
 dotenv.config()
 
-export const cachingEnabled = Boolean(process.env.REDIS_PASSWORD && process.env.REDIS_PASSWORD.trim().length > 0);
+export let cachingEnabled = Boolean(process.env.REDIS_URL && process.env.REDIS_URL.trim().length > 0);
 
 if(!cachingEnabled) {
     console.error("CACHING IS DISABLED")
 }
 
-const client = createClient({
-    password: process.env.REDIS_PASSWORD
+export const client = createClient({
+    url: process.env.REDIS_URL
 });
 
 client.on('connect', () => {
@@ -32,7 +32,8 @@ export function cacheCourse(course: CourseInfoType) : CourseInfoType {
     }
     client.set('course:24F:' + course.subject_prefix + course.course_number, JSON.stringify(course)).then(() => {});
     // sets expiration date for one week 
-    client.expireAt('course:24F:' + course.subject_prefix + course.course_number, Math.floor(Date.now() / 1000) + (86400 * 7));
+    // Disabled for demo purposes
+    // client.expireAt('course:24F:' + course.subject_prefix + course.course_number, Math.floor(Date.now() / 1000) + (86400 * 7));
     return course;
 } 
 
@@ -50,9 +51,10 @@ export function cacheProfessors(courseID: string, professors: ProfInfoType[]) : 
         console.error("Professors does not match schema, not cached.", professors)
         return professors;
     }
-    // sets expiration date for one week
-    client.expireAt('professors:24F:' + courseID, Math.floor(Date.now() / 1000) + (86400 * 7));
     client.set('professors:24F:' + courseID, JSON.stringify(professors)).then(() => {});
+    // sets expiration date for one week
+    // Disabled for demo purposes
+    // client.expireAt('professors:24F:' + courseID, Math.floor(Date.now() / 1000) + (86400 * 7));
     return professors;
 } 
 
@@ -64,4 +66,9 @@ export async function getCacheProfs(courseID: string): Promise<ProfInfoType[] | 
     return ProfessorSchema.array().parse(JSON.parse(profStr));
 }
 
-await client.connect();
+if(cachingEnabled) {
+    client.connect().catch(e => {
+        console.error(e);
+        cachingEnabled = false;
+    });
+}
