@@ -82,6 +82,7 @@
 		<li><a href="/" class:highlight={$page.url.pathname == '/'}>Home</a></li>
 		<li><a href="/app" class:highlight={$page.url.pathname.startsWith('/app')}>App</a></li>
 		<li><a href="/about" class:highlight={$page.url.pathname.startsWith('/about')}>About</a></li>
+		<li><a href="https://rithvik-pro.notion.site/Professor-Selector-Info-11d058c109ab8014a484ce51c8d07def" target='_blank'>Info</a></li>
 	  </ul>
 	</header>
 	

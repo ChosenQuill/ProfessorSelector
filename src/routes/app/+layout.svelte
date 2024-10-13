@@ -144,7 +144,7 @@
 					// Automatically show the menu on desktop
 					if (!isMobile) {
 						menu.set(true);
-					} else {
+					} else if(Object.entries($courses[$semester]).filter(obj => obj[1]?.roster).length > 0 || $page.url.pathname !== '/app') {
 						menu.set(false);
 					}
 					prev = window.innerWidth;
@@ -216,7 +216,7 @@
 				</div>
 			</div>
 			<!-- Courses Card -->
-			{#if Object.keys($courses[$semester]).length > 0}
+			<!-- {#if Object.entries($courses[$semester]).filter(obj => obj[1]?.roster).length > 0} -->
 			<div class="flex flex-col w-full bg-base-300 card mt-4 pt-2 pr-2">
 				<div class="flex flex-row w-full items-center">
 					<h2 class="card-title ml-7 mt-5 w-full">
@@ -292,7 +292,7 @@
 					</div>
 				</div>
 			</div> 
-			{/if}
+			<!-- {/if} -->
 		</div>
 	</section>
 
