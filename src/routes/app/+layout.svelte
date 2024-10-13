@@ -217,7 +217,7 @@
 			</div>
 			<!-- Courses Card -->
 			{#if Object.keys($courses[$semester]).length > 0}
-			<div class="flex flex-col w-full bg-base-300 card mt-4 pt-2 pr-3">
+			<div class="flex flex-col w-full bg-base-300 card mt-4 pt-2 pr-2">
 				<div class="flex flex-row w-full items-center">
 					<h2 class="card-title ml-7 mt-5 w-full">
 						Courses
