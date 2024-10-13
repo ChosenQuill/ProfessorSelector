@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { request, gql } from 'graphql-request'
 
-import Database from 'better-sqlite3'
+import sqlite3 from 'sqlite3'
 import fs from "node:fs";
 
 import * as dotenv from 'dotenv'
@@ -69,29 +69,41 @@ export async function getProfessorRating(name: string): Promise<ProfRatingsType 
 // Local Grades Data
 console.log("Does the grades db exist? ", fs.existsSync("./grades/grades.db"))
 
-const file = fs.readFileSync("./grades/grades.db");
-const db = new Database(file);
+// better-sqlite3
+// const file = fs.readFileSync("./grades/grades.db");
+// const db = new sqlite3.Database(file);
+const db = new sqlite3.Database("./grades/grades.db");
 // db.pragma('journal_mode = WAL'); // No need for WAL since we do all reads and no writes.
+
+// Promisify the db.all method for easier async/await usage
+import { promisify } from 'util';
+const dbAll = promisify(db.all).bind(db);
 
 const query = "SELECT SUM(average) / count(average) AS average FROM classes JOIN class_professor ON classes.id = class_professor.class_id where professor_id = (SELECT id FROM professors WHERE first_name LIKE ? AND last_name Like ?) AND count != 0;"
 
 // Fixes a bug where it uses last and first word to get professor grades.
-function getLastWord(str) {
+function getLastWord(str: string): string {
     const words = str.trim().split(/\s+/);
     return words[words.length - 1];
 }
 
-function getFirstWord(str) {
+function getFirstWord(str: string): string {
     const words = str.trim().split(/\s+/);
     return words[0];
 }
 
-export function getProfessorAvg(first: string, last: string): number {
+export async function getProfessorAvg(first: string, last: string): Promise<number | null> {
     console.log(first, last)
-    const rows = db.prepare(query).all([getFirstWord(first), getLastWord(last)]);
-    if (rows.length != 0)
-        return rows[0].average
-    return rows[0]
+    try {
+        const rows: Array<{ average: number }> = await dbAll(query, [getFirstWord(first), getLastWord(last)]);
+        if (rows.length !== 0 && rows[0].average !== null) {
+            return rows[0].average;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching professor average:", error);
+        return null;
+    }
 }
 
 // console.log(getProfessorAvg("Jason", "Smith"))
@@ -171,7 +183,7 @@ export async function getProfessors(courseID: string, season: string): Promise<u
     if(json.data === null) {
         return null;
     }
-    let profIds : string[] = json.data.map(section => section.professors[0]);
+    let profIds : string[] = json.data.map((section: any) => section.professors[0]);
     // Remove duplicate professors from each section
     profIds = [...new Set(profIds)];
     // Filter empty professors.
@@ -180,8 +192,8 @@ export async function getProfessors(courseID: string, season: string): Promise<u
     const profsData = await Promise.all(profIds.map(id => getProfessorData(id)));
     const profsDataFiltered = profsData.filter(data => !!data) as ProfInfoType[];
     const [profRMP, profGrades] = await Promise.all([
-        await Promise.all(profsData.map(data => getProfessorRating(data!.first_name + " " + data!.last_name))),
-        await Promise.all(profsData.map(data => getProfessorAvg(data!.first_name, data!.last_name)))
+        await Promise.all(profsData.map(data => data ? getProfessorRating(`${data.first_name} ${data.last_name}`) : undefined)),
+        await Promise.all(profsData.map(data => data ? getProfessorAvg(data.first_name, data.last_name) : null))
     ]);
     const resData = profsDataFiltered.map((data, i) => {return {...data, rmp: profRMP[i], avgGrade: profGrades[i]}});
     return resData.sort((prof1, prof2) => {
