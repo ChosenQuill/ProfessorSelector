@@ -134,17 +134,22 @@
 	}
 
 	let isMobile = false;
-
+	let prev = 0;
 	onMount(() => {
 		if (browser) {
 			const checkMobile = () => {
-				isMobile = window.innerWidth < 768;
-				// Automatically show the menu on desktop
-				if (!isMobile) {
-					menu.set(true);
-				} else {
-					menu.set(false)
+				// On mobile, when keyboard is open, resize event is added. This checks to see if it has resized after the first time. 
+				if(prev != window.innerWidth) {
+					isMobile = window.innerWidth < 768;
+					// Automatically show the menu on desktop
+					if (!isMobile) {
+						menu.set(true);
+					} else {
+						menu.set(false);
+					}
+					prev = window.innerWidth;
 				}
+				// console.log(window.innerWidth);
 			}
 			checkMobile();
 			window.addEventListener('resize', checkMobile);
@@ -184,9 +189,10 @@
 							id="class-input"
 							type="text"
 							placeholder="Type here. Ex: SE.3345"
-							class="join-item input input-bordered"
+							class="join-item input input-bordered w-52"
 							bind:value={className}
-						/>
+							/>
+							<!-- Can apply the following props to make the text a little more responsive: flex flex-1 w-0  -->
 						<button class="btn btn-square btn-primary join-item" on:click={addClass}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +217,7 @@
 			</div>
 			<!-- Courses Card -->
 			{#if Object.keys($courses[$semester]).length > 0}
-			<div class="flex flex-col w-full bg-base-300 card mt-4 pt-2">
+			<div class="flex flex-col w-full bg-base-300 card mt-4 pt-2 pr-3">
 				<div class="flex flex-row w-full items-center">
 					<h2 class="card-title ml-7 mt-5 w-full">
 						Courses
