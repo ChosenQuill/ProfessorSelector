@@ -51,6 +51,7 @@
 <title>Professor Selector</title>
 <meta name="description" content="Get Info on your classes" />
 <link rel="icon" type="image/png" href={logoWebp} />
+<script defer src="https://cloud.umami.is/script.js" data-website-id="0bd27d0e-cfd0-4cb3-a95b-49e2bd5c1ea0"></script>
 </svelte:head>
 
 <div class="main-flex app">
