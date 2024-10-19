@@ -80,9 +80,9 @@
 				<line x1="4" x2="20" y1="18" y2="18"/>
 				</svg>
 			</button>
-			<li><a href="/" class:highlight={$page.url.pathname == '/'}>Home</a></li>
-			<li><a href="/app" class:highlight={$page.url.pathname.startsWith('/app')}>App</a></li>
-			<li><a href="/about" class:highlight={$page.url.pathname.startsWith('/about')}>About</a></li>
+			<li><a rel="prefetch" href="/" class:highlight={$page.url.pathname == '/'}>Home</a></li>
+			<li><a rel="prefetch" href="/app" class:highlight={$page.url.pathname.startsWith('/app')}>App</a></li>
+			<li><a rel="prefetch" href="/about" class:highlight={$page.url.pathname.startsWith('/about')}>About</a></li>
 		</ul>
 	</header>
 

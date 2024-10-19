@@ -170,6 +170,10 @@
 	}
 </script>
 
+<svelte:head>
+	<link rel="preconnect" href="https://profiles.utdallas.edu" />
+</svelte:head>
+
 <div class="flex flex-col md:flex-row mx-8 h-full mb-2">
 	<!-- Menu Section -->
 	<section
@@ -244,20 +248,21 @@
 					<ul class="menu p-4 pr-2 w-full">
 						<!-- Iterate over courses and display them -->
 						{#each Object.entries($courses[$semester]).filter(obj => obj[1]?.roster) as [id, course] (id)}
-							<li>
-								<button
-									{id}
-									class:active={$page.url.pathname === '/app/course/' + course.info.subject_prefix + '/' + course.info.course_number }
+							<li transition:slide>
+								<a
+									href={`/app/course/${course.info.subject_prefix}/${course.info.course_number}`}
+									class:active={
+										$page.url.pathname === `/app/course/${course.info.subject_prefix}/${course.info.course_number}`
+									}
 									class="mb-2"
-									transition:slide
 									on:click={() => {
 										// Close the menu on mobile when navigating to a course
-										menu.set(false); 
-										goto(`/app/course/${$courses[$semester][id].info.subject_prefix}/${$courses[$semester][id].info.course_number}`);
+										menu.set(false);
 									}}
+									rel="prefetch"
 								>
 									{`${$courses[$semester][id].info.subject_prefix} ${$courses[$semester][id].info.course_number}`}
-								</button>
+								</a>
 							</li>
 						{/each}
 						<!-- Additional menu items can be added here -->
