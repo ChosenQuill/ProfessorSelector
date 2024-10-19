@@ -15,13 +15,21 @@ import { fetchCourse, fetchProfs} from '$lib/api/data';
 import { getNextSemester } from '$lib/helper';
 
 
-export const load: PageServerLoad = async ({ params, url }) => {
+export const load: PageServerLoad = async ({ params, url, setHeaders }) => {
     if(!/\d+/g.test(params.number)) {
         console.log("Invalid Course Param");
         error(404, 'Not Found');
     }
 
 	const course = await fetchCourse(params.section, params.number);
+
+    // await timeout(3000); // Testing loading and cache.
+    
+    // Sets cache headers for 24 hours to ensure faster loadtimes on client after initial load/when switching courses. 
+    setHeaders({
+        'Cache-Control': 'public, max-age=86400',
+        'Content-Type': 'text/html'
+    });
 
 	if (course == null) {
         error(404, 'Not found');
@@ -34,6 +42,10 @@ export const load: PageServerLoad = async ({ params, url }) => {
     }
 
 };
+
+// function timeout(ms) {
+//     return new Promise(resolve => setTimeout(resolve, ms));
+// }
 
 
 export { }

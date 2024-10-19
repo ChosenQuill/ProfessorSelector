@@ -8,6 +8,7 @@
 	import { getNextSemester } from '$lib/helper';
 
 	import { slide } from "svelte/transition";
+	import { navigating } from '$app/stores';
 	
 	let className = '';
 	// let current = ''
@@ -302,7 +303,13 @@
 	<!-- Main Content Section -->
 	<section class="flex flex-col overflow-x-auto w-full">
 		<!-- Slot for main content -->
-		<slot />
+		{#if $navigating}
+			<div class="w-full h-full flex items-center justify-center">
+				<span class="loading loading-spinner loading-lg mt-16 md:mt-0"></span>
+			</div>
+		{:else}
+			<slot />
+		{/if}
 		<!-- Example content rendering (commented out) -->
 		<!-- {#if courses[current]}
 			<Course info={courses[current].course} />

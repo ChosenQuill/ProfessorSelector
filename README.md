@@ -16,9 +16,9 @@ Selecting the right professors is crucial for academic success, but the process 
 
 - **Automated Data Aggregation:** Collects and consolidates professor information, ratings, and average grades.
 - **User-Friendly Interface:** Displays data in an organized table format for easy comparison.
-- **Responsive Design:** Implements server-side rendering for faster load times and improved user experience.
+- **Responsive Design:** Implements server-side rendering and client side caching for faster load times and improved user experience.
 - **Parallel Data Processing:** Fetches data concurrently to optimize performance.
-- **Caching with Redis:** Utilizes caching to reduce API load and improve response times.
+- **Caching with Redis:** Utilizes server-side caching to reduce API load and improve response times.
 - **Data Validation:** Ensures data consistency and integrity using Zod schemas.
 - **Comprehensive Testing:** Includes unit tests and end-to-end (E2E) tests using Playwright.
 
