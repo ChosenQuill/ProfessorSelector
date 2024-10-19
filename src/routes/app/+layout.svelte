@@ -227,21 +227,22 @@
 					<h2 class="card-title ml-7 mt-5 w-full">
 						Courses
 					</h2>
-					<button
+					<a
 						class="btn btn-square btn-outline btn-sm mt-5 mr-4"
 						class:btn-active={$page.url.pathname === '/app'}
 						style="border: none;"
+						href="/app"
+						rel="prefetch"
 						on:click={() => {
 							// Close the menu on mobile when navigating to home
-							menu.set(false); 
-							goto("/app");
+							menu.set(false);
 						}}
 					>
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
 							<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
 							<path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
 						</svg>
-					</button>
+					</a>
 				</div>
 				
 				<div class="flex w-full">
