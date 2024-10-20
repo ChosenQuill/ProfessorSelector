@@ -183,7 +183,7 @@ export async function getProfessors(courseID: string, season: string): Promise<u
     if(json.data === null) {
         return null;
     }
-    let profIds : string[] = json.data.map((section: any) => section.professors[0]);
+    let profIds : string[] = json.data.flatMap((section: any) => section.professors);
     // Remove duplicate professors from each section
     profIds = [...new Set(profIds)];
     // Filter empty professors.

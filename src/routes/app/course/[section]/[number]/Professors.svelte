@@ -7,7 +7,7 @@
 
 	export let course: CourseInfoType;
 
-
+	
 	const sortedMap = {
 		Rating: (prof) => prof.rmp.avgRatingRounded,
 		Difficulty: (prof) => prof.rmp.avgDifficulty,
@@ -220,7 +220,7 @@
 						{prof.rmp?.avgDifficulty ? Number(prof.rmp.avgDifficulty).toFixed(1) : '?'}
 					</td>
 					<td>
-						{prof.rmp?.numRatings ? Number(prof.rmp.wouldTakeAgainPercentRounded).toFixed(0) : '?'}%
+						{prof.rmp?.wouldTakeAgainPercentRounded && prof.rmp?.wouldTakeAgainPercentRounded != -1 ? Number(prof.rmp.wouldTakeAgainPercentRounded).toFixed(0) : '?'}%
 					</td>
 					<td>
 						{prof.rmp?.ratingsDistribution?.total ? prof.rmp.ratingsDistribution.total : '?'}
@@ -230,7 +230,7 @@
 					</td>
 					<td>
 						<div class="join lg:btn-group-horizontal">
-							<a href="https://www.ratemyprofessors.com/professor/{prof.rmp.legacyId}" target="_blank" rel="noopener noreferrer" class="btn btn-xs join-item">Ratings</a>
+							<a href="https://www.ratemyprofessors.com/professor/{prof?.rmp?.legacyId}" target="_blank" rel="noopener noreferrer" class="btn btn-xs join-item">Ratings</a>
 							<a href="https://utdgrades.com/results?search={(prof?.first_name + '+' + prof?.last_name)?.replaceAll(' ','+')}" target="_blank" rel="noopener noreferrer" class="btn btn-xs join-item">Grades</a>
 						</div>
 					</td>
