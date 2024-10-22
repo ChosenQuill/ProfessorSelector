@@ -21,7 +21,7 @@
                 <thead>
                     <tr>
                         <th>Course</th>
-                        <th>Name</th>
+                        <!-- <th>Name</th> -->
                         <th>Professor</th>
                         <th>Rating</th>    
                     </tr>
@@ -33,7 +33,7 @@
                         }) as [id, course] (course.info._id) }
                     <tr>
                         <th>{course.info.subject_prefix}<br />{course.info.course_number}</th>
-                        <td>{course.info.title}</td>
+                        <!-- <td>{course.info.title}</td> -->
                         <td>
                             <div class="flex items-center space-x-3">
                             <div class="avatar">

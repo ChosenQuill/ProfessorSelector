@@ -174,7 +174,7 @@
 	<link rel="preconnect" href="https://profiles.utdallas.edu" />
 </svelte:head>
 
-<div class="flex flex-col md:flex-row mx-8 h-full mb-2">
+<div class="flex flex-col md:flex-row mx-4 md:mx-6 h-full mb-2">
 	<!-- Menu Section -->
 	<section
 		class="flex-col md:flex fixed md:static top-0 left-0 bg-base-100 w-full h-full md:w-auto md:h-auto z-10 p-4 md:p-0 transform transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0"
@@ -194,7 +194,7 @@
 							id="class-input"
 							type="text"
 							placeholder="Type here. Ex: SE.3345"
-							class="join-item input input-bordered w-52"
+							class="join-item input input-bordered w-full md:w-52"
 							bind:value={className}
 							/>
 							<!-- Can apply the following props to make the text a little more responsive: flex flex-1 w-0  -->
