@@ -28,24 +28,6 @@
 </div>
 
 <main class="prose mx-auto my-8 lg:max-w-screen-lg p-4">
-  <h2>Features</h2>
-  <ul>
-    <li>
-      <strong>Comprehensive Professor Profiles:</strong> Dive deep into detailed information about each professor, including ratings, difficulty levels, and student feedback from multiple platforms to make well-informed decisions.
-    </li>
-    <li>
-      <strong>Intuitive Course Management:</strong> Effortlessly search for courses, add them to your roster, and manage your selections with a user-friendly interface that simplifies the entire process.
-    </li>
-    <li>
-      <strong>Prioritized Selections:</strong> Choose up to three professors per course, allowing you to prioritize your preferences and increase your chances of registering with your top choices.
-    </li>
-    <li>
-      <strong>Real-Time Metrics:</strong> Stay updated with the latest data and insights, helping you evaluate and compare professors effectively.
-    </li>
-    <li>
-      <strong>Seamless Mobile Experience:</strong> Manage your roster on the go with a responsive design optimized for both smartphones and desktops, ensuring accessibility wherever you are.
-    </li>
-  </ul>
   
   <h2>How To Use</h2>
   <p>

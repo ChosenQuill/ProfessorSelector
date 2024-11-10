@@ -20,17 +20,9 @@ test('getCourseInfo is valid', async () => {
     expect(res!.title).equals("Software Engineering");
 });
 
-test('getProfessors is valid', async () => {
-    const res = await getProfessors("65d2e154dd0e07205b0f2666", "24S");
-    console.log(res)
-    expect(res).toBeDefined();
-    expect(res![0]._id).not.toBeNull();
-    expect(res![0].avgGrade).not.toBeNull();
-    expect(res![0]?.rmp?.avgDifficulty).not.toBeNull();
-}, 10000)
 
 test('getProfessors is valid', async () => {
-    const res = await getProfessors("65d2e133dd0e07205b0efb52", "22F");
+    const res = await getProfessors("672f173b3e61da2b1e5a316c", "24F");
     console.log(res)
     expect(res).toBeDefined();
     expect(res![0]._id).not.toBeNull();

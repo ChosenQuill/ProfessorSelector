@@ -139,6 +139,7 @@
 	class="btn btn-circle btn-outline btn-sm mr-3"
 	class:btn-primary={checked} class:btn-active={checked}
 	on:click={toggle}
+	id="add-to-roster-button"
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -192,12 +193,12 @@
 			  </tr>
 		</thead>
 		<tbody>
-			{#each info as prof}
+			{#each info as prof, i}
 				<tr>
 					<th>
 						<label>
 							<!-- disabled={selections.length >= 3 && selections.indexOf(prof._id) === -1} -->
-							<input type="checkbox" class="checkbox"  class:checkbox-bronze={selections[2] === prof._id} class:checkbox-warning={selections[0] === prof._id} bind:checked={selected[prof._id]}  on:change={() => change(prof._id)}/>
+							<input type="checkbox" id="prof-checkbox-{i}" class="checkbox"  class:checkbox-bronze={selections[2] === prof._id} class:checkbox-warning={selections[0] === prof._id} bind:checked={selected[prof._id]}  on:change={() => change(prof._id)}/>
 						  </label>
 					</th>
 					<td>
