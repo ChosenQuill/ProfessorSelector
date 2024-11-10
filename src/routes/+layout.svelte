@@ -12,6 +12,7 @@
 	import { page } from '$app/stores';
 
 	import { menu } from '$lib/storage';
+	import { browser } from '$app/environment';
 
 	let isScrolled = false; 
 	let isMobile = false;
@@ -19,7 +20,7 @@
 	onMount(() => {
 		// Function to check if the viewport is mobile-sized
 		const checkMobile = () => {
-		isMobile = window.innerWidth < 768; // Tailwind's 'md' breakpoint is 768px
+			isMobile = window.innerWidth < 768; // Tailwind's 'md' breakpoint is 768px
 		};
 
 		// Function to handle scroll events
@@ -45,6 +46,16 @@
 		window.removeEventListener('scroll', handleScroll);
 		};
 	});
+
+	// Reactive statement to control body overflow
+	$: if (browser) {
+	  if ($menu && isMobile && $page.url.pathname.startsWith('/app')) {
+		document.body.style.overflow = 'hidden';
+	  } else {
+		document.body.style.overflow = '';
+	  }
+	}
+  
 </script>
 
 <svelte:head>
@@ -148,7 +159,7 @@
 		<span>{toast.text}</span>
 		</div>
 	{/each}
-	</div>
+</div>
 <div class="alert-error alert-info alert-warning alert-success hidden" />
 
 <style lang="scss">

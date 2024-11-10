@@ -170,16 +170,7 @@
 	  }
   
 	});
-  
-	// Reactive statement to control body overflow
-	$: if (browser) {
-	  if ($menu && isMobile) {
-		document.body.style.overflow = 'hidden';
-	  } else {
-		document.body.style.overflow = '';
-	  }
-	}
-  
+	
 	let showTourModal = false;
   
 	// Function to start the tour
@@ -207,7 +198,7 @@
 
 	  const checkMenuOpen = () => {
 		if($menu) {
-			tour.next()
+			tour.next();
 		} else {
 			setTimeout(checkMenuOpen, 500);
 		}

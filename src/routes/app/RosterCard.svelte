@@ -29,6 +29,7 @@
                 <tbody>
                     {#each Object.entries($courses[$semester]).filter((obj) => obj[1]?.roster && obj[1]?.professors && obj[1]?.professors.length && obj[1]?.selections && obj[1]?.selections.length > position).map((obj) =>{ 
                         obj[1].professor = obj[1].professors.find(prof => prof._id == obj[1].selections[position]);
+                        console.log(obj[1])
                         return obj;
                         }) as [id, course] (course.info._id) }
                     <tr>
@@ -38,18 +39,18 @@
                             <div class="flex items-center space-x-3">
                             <div class="avatar">
                                 <div class="mask mask-squircle w-12 h-12">
-                                <img src={course.professor.image_uri ? course.professor.image_uri : 'https://profiles.utdallas.edu/img/default.png'} alt="Profile" />
+                                <img src={course?.professor?.image_uri ? course.professor.image_uri : 'https://profiles.utdallas.edu/img/default.png'} alt="Profile" />
                                 </div>
                             </div>
                             <div>
-                                <div class="font-bold">{course.professor.first_name} {course.professor.last_name}</div>
-                                <div class="text-sm opacity-50">{course.professor.email}</div>
+                                <div class="font-bold">{course?.professor?.first_name} {course?.professor?.last_name}</div>
+                                <div class="text-sm opacity-50">{course?.professor?.email}</div>
                             </div>
                             </div>
                         </td>
                         <td class="md:w-24">
                             <span class="text-xl font-bold">
-                                {Number(course.professors[position].rmp?.avgRatingRounded).toFixed(1)}
+                                {Number(course?.professor?.rmp?.avgRatingRounded).toFixed(1)}
                             </span>
                             <span class="text-md">/ 5</span>
                         </td>
