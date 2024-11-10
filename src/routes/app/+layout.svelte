@@ -170,7 +170,7 @@
 	  }
   
 	});
-	
+
 	let showTourModal = false;
   
 	// Function to start the tour
@@ -228,7 +228,7 @@
 		text: 'Add the Class ECS 1100 to view information about the course.',
 		attachTo: {
 		  element: '#add-class-card',
-		  on: 'bottom'
+		  on: 'top'
 		},
 		beforeShowPromise: async () => {
 		  // Ensure ECS1100 is not already added
@@ -249,6 +249,12 @@
 			checkElement();
 		  });
 		  checkClassAdded();
+		},
+		when: {
+			show() {
+				const vElement = this.getElement();
+				if (vElement) vElement.focus = () => { /* Do nothing */ };
+			}
 		}
 	  });
   
