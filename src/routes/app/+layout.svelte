@@ -486,11 +486,12 @@
 			</label>
 			<!-- Input for adding a class -->
 			<div class="join">
+				<!-- NOTE: A little smaller than w-52 for laptop L compatability -->
 			  <input
 				id="class-input"
 				type="text"
 				placeholder="Type here. Ex: SE.3345"
-				class="join-item input input-bordered w-full md:w-52"
+				class="join-item input input-bordered w-full md:w-[12.5rem]" 
 				bind:value={className}
 				/>
 				<!-- Can apply the following props to make the text a little more responsive: flex flex-1 w-0  -->
