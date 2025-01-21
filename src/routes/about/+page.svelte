@@ -11,12 +11,6 @@
   .prose img {
     @apply rounded-2xl p-2 bg-base-100;
   }
-  .collapse-arrow > .collapse-title:after {
-    @apply duration-300;
-    height: .85rem;
-    width: .85rem;
-    box-shadow: 3px 3px;
-  }
   .prose blockquote ::before, ::after {
     display: none;
   }
@@ -24,6 +18,85 @@
     margin: 0px;
     font-style: normal;
     font-weight: 00;
+  }
+  
+  // .collapse-arrow > .collapse-title:after {
+  //   transition-duration: 300ms;
+  //   transition-duration: .4s;
+  //   height: .85rem;
+  //   width: .85rem;
+  //   box-shadow: 3px 3px;
+  // Collapse arrow is not showing up (maybe taken out of postcss), so instead, we manually inject the collapse arrow styles from daisyui.
+
+  .collapse-arrow > .collapse-title:after {
+    position: absolute;
+    display: block;
+    --tw-translate-y: -100%;
+    --tw-rotate: 45deg;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    top: 1.9rem /* 30.4px */;
+    inset-inline-end: 1.4rem /* 22.4px */;
+    content: "";
+    transform-origin: 75% 75%;
+    pointer-events: none;
+    
+    // Modified CSS values for larger and slower collapse arrow icon.
+    transition-duration: 400ms;
+    transition-duration: .4s;
+    height: .95rem;
+    width: .95rem;
+    box-shadow: 3px 3px;
+    transition-duration: 150ms;
+    transition-duration: 0.2s;
+    border-radius: 2px;
+  }
+  .collapse[open].collapse-arrow > .collapse-title:after,
+  .collapse-open.collapse-arrow > .collapse-title:after,
+  .collapse-arrow:focus:not(.collapse-close) > .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="checkbox"]:checked ~ .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="radio"]:checked ~ .collapse-title:after {
+      --tw-translate-y: -50%;
+      --tw-rotate: 225deg;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  .collapse[open].collapse-arrow > .collapse-title:after,
+  .collapse-open.collapse-arrow > .collapse-title:after,
+  .collapse-arrow:focus:not(.collapse-close) > .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="checkbox"]:checked ~ .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="radio"]:checked ~ .collapse-title:after {
+      --tw-translate-y: -50%;
+      --tw-rotate: 225deg;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  .collapse[open].collapse-arrow > .collapse-title:after,
+  .collapse-open.collapse-arrow > .collapse-title:after,
+  .collapse-arrow:focus:not(.collapse-close) > .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="checkbox"]:checked ~ .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="radio"]:checked ~ .collapse-title:after {
+      --tw-translate-y: -50%;
+      --tw-rotate: 225deg;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  .collapse[open].collapse-arrow > .collapse-title:after,
+  .collapse-open.collapse-arrow > .collapse-title:after,
+  .collapse-arrow:focus:not(.collapse-close) > .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="checkbox"]:checked ~ .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="radio"]:checked ~ .collapse-title:after {
+      --tw-translate-y: -50%;
+      --tw-rotate: 225deg;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  .collapse[open].collapse-arrow > .collapse-title:after,
+  .collapse-open.collapse-arrow > .collapse-title:after,
+  .collapse-arrow:focus:not(.collapse-close) > .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="checkbox"]:checked ~ .collapse-title:after,
+  .collapse-arrow:not(.collapse-close) > input[type="radio"]:checked ~ .collapse-title:after {
+      --tw-translate-y: -50%;
+      --tw-rotate: 225deg;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
 </style>
 
@@ -128,7 +201,7 @@
   </div>
 </div>
 
-
+<div class="collapse-arrow hidden collapse-content collapse" />
 <!-- <div class="prose mx-auto my-8 lg:max-w-screen-lg p-8 bg-base-200 rounded-2xl">
   <h2>Support</h2>
 
