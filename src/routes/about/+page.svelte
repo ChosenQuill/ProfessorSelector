@@ -9,7 +9,10 @@
 
 <style lang="scss">
   .prose img {
-    @apply rounded-2xl p-2 bg-base-100;
+    @apply rounded-2xl;
+  }
+  .how-to-use img {
+    @apply p-2 bg-base-100;
   }
   .prose blockquote ::before, ::after {
     display: none;
@@ -101,19 +104,42 @@
 </style>
 
 <div class="flex flex-col justify-center mx-auto p-2 lg:p4">
-  <div class="bg-base-200 rounded-lg p-8 lg:max-w-screen-lg prose mt-8 shadow-lg">
-	  <h1 class="mb-6">About</h1>
-	  <p class="mb-2">
-		  <strong>Professor Selector</strong> is a data analytics tool designed to help you quickly gather information about professors for your current or upcoming courses. By leveraging metrics from various platforms, Professor Selector enables you to make informed decisions when building your semester roster.
-		</p>
 
-    <p class="mb-0">
-      If you encounter any issues or have questions, feel free to reach out through via email at <code>hello{"{at}"}rithvik.pro</code>.
-    </p>
-    <div class="flex flex-row items-center justify-between gap-4 mt-5">
-      <strong class="m-0">Built by Rithvik S. w/&nbsp;&nbsp;💖 <br /> © 2024 Xeno Industries LLC.</strong>
-      <!-- <blockquote>
-      </blockquote> -->
+
+  <div class="bg-base-200 rounded-lg p-8 lg:max-w-screen-lg prose mt-8 shadow-lg flex flex-row items-center">
+    <div class="flex flex-col">
+      <h1 class="mb-6">About</h1>
+      <p class="mb-2">
+        <strong>Professor Selector</strong> is a data analytics tool designed to help you quickly gather information about professors for your current or upcoming courses. By leveraging metrics from various platforms, Professor Selector enables you to make informed decisions when building your semester roster.
+      </p>
+
+      <p class="mb-0">
+        If you encounter any issues or have questions, feel free to reach out through via email at <code>hello{"{at}"}rithvik.pro</code>.
+      </p>
+      <div class="flex flex-row items-center justify-between gap-4 mt-5">
+        <strong class="m-0">Built by Rithvik S. w/&nbsp;&nbsp;💖 <br /> © 2024 Xeno Industries LLC.</strong>
+        <!-- <blockquote>
+        </blockquote> -->
+        <a
+          class="btn btn-outline"
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.paypal.com/paypalme/chosenrs">
+          Donate
+        </a>
+        
+      </div>
+    </div>
+    <img
+      alt="Asthetic Building"
+      src={building}
+      class="max-h-80 ml-12 hidden lg:block"
+    />
+      
+      <!-- <h2>License</h2> -->
+      <!-- <p>© 2024 Xeno Industries LLC. All rights reserved.</p> -->
+      
+    <!-- <div class="flex flex-row items-center justify-between gap-4">
       <a
       class="btn btn-outline"
       target="_blank"
@@ -121,24 +147,11 @@
       href="https://www.paypal.com/paypalme/chosenrs">
         Donate
       </a>
-    </div>
-    
-    <!-- <h2>License</h2> -->
-    <!-- <p>© 2024 Xeno Industries LLC. All rights reserved.</p> -->
-		
-	<!-- <div class="flex flex-row items-center justify-between gap-4">
-		<a
-		class="btn btn-outline"
-		target="_blank"
-		rel="noreferrer"
-		href="https://www.paypal.com/paypalme/chosenrs">
-			Donate
-		</a>
-		<p>Built by Rithvik Senthilkumar w/&nbsp;&nbsp;💖</p>
-	</div> -->
+      <p>Built by Rithvik Senthilkumar w/&nbsp;&nbsp;💖</p>
+    </div> -->
   </div>
   
-  <div class="prose my-8 lg:max-w-screen-lg p-4 collapse collapse-arrow bg-base-200 duration-700">
+  <div class="how-to-use prose my-8 lg:max-w-screen-lg p-4 collapse collapse-arrow bg-base-200 duration-700">
     <input type="checkbox" class="peer" />
     <h2 class="mb-0 mt-0 collapse-title">How To Use</h2>
     <div class="
