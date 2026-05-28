@@ -12,6 +12,12 @@ ProfessorSelector is a web application developed to automate and enhance the exp
 
 Selecting the right professors is crucial for academic success, but the process can be time-consuming. Traditionally, students spend hours manually searching for professor ratings, average grades, and other metrics across various platforms. ProfessorSelector was created to address this challenge by automating data collection and presenting it in a user-friendly format.
 
+## Demo
+
+[Watch the final demo](./demos/final-demo.mp4)
+
+This demo shows the course search and professor comparison flow. It does not include the roster feature.
+
 ## Features
 
 - **Automated Data Aggregation:** Collects and consolidates professor information, ratings, and average grades.
