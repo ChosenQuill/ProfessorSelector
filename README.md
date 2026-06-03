@@ -14,7 +14,9 @@ Selecting the right professors is crucial for academic success, but the process 
 
 ## Demo
 
-[Watch the final demo](./demos/final-demo.mp4)
+[![Watch the demo](./demos/final-demo-preview.jpg)](https://raw.githubusercontent.com/ChosenQuill/ProfessorSelector/main/demos/final-demo-preview.mp4)
+
+[Watch the demo](https://raw.githubusercontent.com/ChosenQuill/ProfessorSelector/main/demos/final-demo-preview.mp4)
 
 This demo shows the course search and professor comparison flow. It does not include the roster feature.
 
